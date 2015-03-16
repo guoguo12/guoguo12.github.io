@@ -1,0 +1,147 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+
+a code {
+    color: #4462DB;
+    -moz-transition: color 0.2s;
+    -o-transition: color 0.2s;
+    -webkit-transition: color 0.2s;
+}
+
+a code:hover {
+    color: #2432AB;
+}
+
+body {
+    font-family: "Open Sans", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 14px;
+    background: url(../images/pixel_weave.png) repeat center center fixed; 
+    height: 100%;
+}
+
+h1 {
+    font-size: 44px;
+    text-align: center;
+}
+
+hr {
+    border-color: #DDD;
+}
+
+input[type=submit] {
+    color: #333333;
+    height: 24px;
+    width: 103px;
+}
+
+input[type=text] {
+    color: #333333;
+    padding: 6px;
+}
+
+ul.spaced>li {
+    padding-bottom: 6px;
+}
+
+textarea {
+    border-style: none; 
+    border-color: transparent;
+    overflow: auto;
+    padding: 6px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 800px;
+    }
+}
+
+section {
+  color: #000;
+  padding-top: 50px;
+  height: 980px;
+  width: 100%; }
+  section .content {
+    margin: 0px auto;
+    max-width: 640px; }
+    @media screen and (max-width: 640px) {
+      section .content {
+        width: 90%; } }
+    section .content a {
+      color: #0054c3; }
+    section .content a:hover {
+      color: #003e90;
+      text-decoration: none; }
+      
+section:nth-child(odd) {
+  background: url(../images/outlets.png) repeat center center fixed;
+  color: white; }
+  section:nth-child(odd) a {
+    color: #c3c7ff ; }
+  section:nth-child(odd) a:hover {
+    color: #9097ff; }    
+    
+.header {
+    font-family: "Century Gothic", "Tahoma", sans-serif;
+    font-size: 13px;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #FFF;
+}
+
+.navbar-inverse .navbar-nav>li>a.active {
+    color: #FFF;
+}
+
+.nextlink {
+    font-size: 16px;
+    padding: 30px;
+    text-align: right;
+}
+
+.row {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.sideimage {
+    float: right;
+    padding: 10px; 
+}
+
+.smaller {
+    font-size: 12px;
+}
+
+#footer {
+    color: gray;
+    background-color: black;
+    padding-bottom: 13px;
+    padding-top: 13px;
+    text-align: center;
+    font-size: 11px;
+    width: 100%;
+}
+
+#footer a {
+    color: #AAA;
+    text-decoration: none;
+}
+
+#maincontent {
+
+}
+
+#page {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.sc {
+    font-variant: small-caps;
+}

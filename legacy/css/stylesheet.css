@@ -1,0 +1,198 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+
+a {
+    color: #AFDEFF;
+}
+
+a:hover {
+    color: #9BCAEB;
+}
+
+a:hover {
+text-decoration: none;
+}
+
+body {
+    color: #DDD;
+    font-family: "Open Sans", "Calibri", "Lucida Grande", sans-serif;
+    font-size: 17px;
+    line-height: 115%;
+    background: url(../images/random_grey_variations.png) repeat center center fixed; 
+    background-color: #454B55;
+    height: 100%;
+}
+
+li {
+    line-height: 24px;
+}
+
+pre {
+    font-size: 12px;
+    margin: 20px 0px 20px 0px;
+    border-radius: 0px;
+    border: 0px;
+    padding: 20px;
+    background-color: #282B2E;
+}
+
+code {
+
+}
+
+strong {
+    font-weight: normal;
+    color: #000;
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 20px;
+    margin-top: 0px;
+}
+
+h2 {
+    margin: 0px;
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 30px;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0px;
+    margin-top: 0px;
+    line-height: 15px;
+}
+
+textarea {
+    border-style: none; 
+    border-color: transparent;
+    overflow: auto;
+    padding: 6px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 800px;
+    }
+}
+
+.navbar {
+    opacity: 0.9;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #FFF;
+}
+
+.navbar-inverse .navbar-nav>li>a.active {
+    color: #FFF;
+}
+
+/*
+
+.sideimage {
+    float: right;
+    margin: 20px;
+    border-radius: 100%;
+    width: 40%;
+}
+
+*/
+
+.sideimage {
+    float: right;
+    margin: 20px;
+    border: solid 40px #FFF;
+}
+
+.smaller {
+    font-size: 12px;
+}
+
+.thumb {
+    border-radius: 100px;
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: auto;
+}
+
+#allenpic {
+    display: none;
+}
+
+#header {
+    text-align: center;
+    font-size: 20px;
+}
+
+#footer {
+    color: gray;
+    background-color: #111;
+    padding: 13px;
+    text-align: center;
+    font-size: 11px;
+    width: 100%;
+    min-width: 900px;
+}
+
+#footer a {
+    color: #AAA;
+}
+
+.contentbox {
+    border-left: 1px dashed #DDD;
+    padding: 20px 20px 20px 35px;
+    margin-bottom: 50px;
+    visibility: hidden;
+}
+
+.titlebox {
+    margin-bottom: 40px;
+}
+
+.dateline {
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 14px;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    font-size: 14px;
+    padding: 0px;
+}
+
+#maincontent {
+    margin: 75px auto 50px auto;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+@media (max-width: 480px) {  
+    img.nomobile { display: none !important; }
+}
+
+/* Sticky Footer */
+* {
+margin: 0;
+}
+html, body {
+height: 100%;
+}
+.wrapper {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto 0;
+}
+.footer, .push {
+height: 4em;
+}
