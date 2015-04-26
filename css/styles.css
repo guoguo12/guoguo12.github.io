@@ -25,9 +25,9 @@ img {
 
 .right {
   order: 2;
-  flex: 2 1 800px;
+  flex: 2 1 700px;
   font-size: 0.60em;
-  padding: 6%;
+  padding: 5%;
   display: flex;
   justify-content: center;
   align-content: space-around;
@@ -36,7 +36,7 @@ img {
 
 .left {
   order: 1;
-  flex: 1 1 auto;
+  flex: 1 1 300px;
   color: white;
   background-color: black;
   display: flex;
@@ -44,11 +44,11 @@ img {
   align-items: flex-start;
   flex-direction: column;
   text-align: left;
-  padding: 8%;
+  padding: 5%;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.1em;
   line-height: 100%;
   margin-top: 0px;
 }
@@ -147,7 +147,7 @@ ul.other-projects li:not(:first-child) {
 /* Based on http://cssdeck.com/labs/custom-webkit-scrollbars */
 
 .custom-scrollbar {
-  padding-right: 5%;
+  padding-right: 25px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
