@@ -166,3 +166,22 @@ ul.other-projects li:not(:first-child) {
 .custom-scrollbar::-webkit-scrollbar-thumb:horizontal {
   background-color: rgba(0,0,0,0.15);
 }
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+
+#projects img {
+  float: right;
+  max-width: 20%;
+  border: 1px solid gray;
+  margin: 5px;
+}

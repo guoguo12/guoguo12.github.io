@@ -13,6 +13,7 @@
   <meta name="author" content="Allen Guo">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/lightbox.css">
   <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body class="outer">
@@ -35,10 +36,32 @@ I'm a programmer. I build <a href="#projects" class="slidenav">things</a>.
 <p>
 I study at UC Berkeley.
 <p>
-This summer, I'll be interning at <a href="http://remeeting.com" target="_blank">Remeeting</a>.
+This summer, I'm interning at <a href="http://remeeting.com" target="_blank">Remeeting</a>.
 </div>
 <div id="projects" class="custom-scrollbar">
 <h2>projects</h2>
+
+<a href="img/art-flashcards.png" data-lightbox="art" data-title="I made these flashcards while studying for my art history class.">
+  <img src="img/art-flashcards.png" class="hidden-xs hidden-sm">
+</a>
+<a href="img/art-flashcards-2.png" data-lightbox="art" data-title="Pressing the Space key hides the details of the artwork shown. Can you identify this work and who painted it?"></a>
+<b>Art History Flashcards</b>
+<div class="links">
+  <a href="https://guoguo12.github.io/art-flashcards/" target="_blank">Website</a>
+  &middot;
+  <a href="https://github.com/guoguo12/art-flashcards" target="_blank">GitHub</a>
+</div>
+<ul class="pushdown">
+<li>Flashcards containing key facts on important artworks</li>
+<li>Designed to work effortlessly on devices with smaller screens</li>
+<li>Written in JavaScript using <a href="https://angularjs.org/" target="_blank">AngularJS</a></li>
+</ul>
+<hr>
+
+<a href="img/course-search.jpg" data-lightbox="bcs" data-title="Berkeley Course Search makes it easier to find courses.">
+  <img src="img/course-search.jpg" class="hidden-xs hidden-sm">
+</a>
+<a href="img/course-search-store.png" data-lightbox="bcs" data-title="The Chrome Web Store page for Berkeley Course Search."></a>
 <b>Berkeley Course Search</b>
 <div class="links">
   <a href="https://chrome.google.com/webstore/detail/berkeley-course-search/ppifbfeldmmfgeobebpkgllmapipmabd" target="_blank">Chrome Web Store</a>
@@ -51,6 +74,10 @@ This summer, I'll be interning at <a href="http://remeeting.com" target="_blank"
 <li>Includes links to popular schedule-planning websites</li>
 </ul>
 <hr>
+
+<a href="img/url-shortener.png" data-lightbox="ush" data-title="Using URL Shortener to get a concise link to a document in Google Docs.">
+  <img src="img/url-shortener.png" class="hidden-xs hidden-sm">
+</a>
 <b>URL Shortener</b>
 <div class="links">
   <a href="https://chrome.google.com/webstore/detail/url-shortener/hnknfgljdkfnageoioabndkgnnmmlnmd" target="_blank">Add-on Store</a>
@@ -60,9 +87,20 @@ This summer, I'll be interning at <a href="http://remeeting.com" target="_blank"
 <ul class="pushdown">
 <li>Google Docs add-on for making long URLs shorter</li>
 <li>Written in JavaScript using <a href="https://developers.google.com/apps-script/" target="_blank">Google Apps Script</a></li>
-<li>Installed over 14,000 times</li>
+<li>Installed over 15,000 times</li>
 </ul>
 <hr>
+
+<!--
+// TODO: GET ANOTHER LINES SCREENSHOT WITH HARDER LVL
+<a href="img/lines.png" data-lightbox="lns" data-title="Lines is a puzzle game...">
+  <img src="img/lines.png" class="hidden-xs hidden-sm">
+</a>
+<a href="img/lines-2.png" data-lightbox="lns" data-title="...and it isn't easy."></a>
+-->
+<a href="img/lines.png" data-lightbox="lns" data-title="Lines is a unique and immersive puzzle game experience.">
+  <img src="img/lines.png" class="hidden-xs hidden-sm">
+</a>
 <b>Lines</b>
 <div class="links">
   <a href="https://play.google.com/store/apps/details?id=org.sparkfire.lines.game" target="_blank">Android Store</a>
@@ -75,6 +113,10 @@ This summer, I'll be interning at <a href="http://remeeting.com" target="_blank"
 <li>Written in Java using the <a href="http://www.libgdx.com/" target="_blank">LibGDX</a> game framework</li>
 </ul>
 <hr>
+
+<a href="img/chemistry-data.png" data-lightbox="chm" data-title="The Android Store page for Chemistry Data.">
+  <img src="img/chemistry-data.png" class="hidden-xs hidden-sm">
+</a>
 <b>Chemistry Data</b>
 <div class="links">
   <a href="https://play.google.com/store/apps/details?id=org.sparkfiregames.chemdata" target="_blank">Android Store</a>
@@ -83,10 +125,14 @@ This summer, I'll be interning at <a href="http://remeeting.com" target="_blank"
 </div>
 <ul class="pushdown">
 <li>Chemical element database for Android</li>
-<li>Includes information on atomic weight, density, specific heat capacity, and more</li>
+<li>Includes information on atomic weight, density, heat capacity, and more</li>
 <li>Written in Java using the <a href="https://developer.android.com/sdk/index.html" target="_blank">Android SDK</a></li>
 </ul>
 <hr>
+
+<a href="img/comment-exporter.png" data-lightbox="fce" data-title="Using Facebook Comments Exporter to save comments.">
+  <img src="img/comment-exporter.png" class="hidden-xs hidden-sm">
+</a>
 <b>Facebook Comments Exporter</b>
 <div class="links">
   <a href="https://guoguo12.github.io/exporter/" target="_blank">Website</a>
@@ -94,10 +140,12 @@ This summer, I'll be interning at <a href="http://remeeting.com" target="_blank"
   <a href="https://github.com/guoguo12/exporter" target="_blank">GitHub</a>
 </div> 
 <ul class="pushdown">
-<li>Web tool for exporting Facebook post comments</li>
+<li>Tool for exporting comments on Facebook</li>
+<li>Displays extracted data in tabular and CSV form</li>
 <li>Developed using <a href="https://jquery.com/" target="_blank">jQuery</a> and the <a href="https://developers.facebook.com/docs/graph-api" target="_blank">Facebook Graph API</a></li>
 </ul>
 <hr>
+
 <div class="row">        
 <div class="half">        
 <h4 class="zeropush">Other Projects</h4>
@@ -223,6 +271,7 @@ See my dedicated <a class="internal slidenav" href="#projects">projects page</a>
 </div>
 
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="js/lightbox.min.js"></script>
 <script>
 var currentSlide = 'home';
 var slides = ['home', 'about', 'posts', 'projects', 'resume'];
