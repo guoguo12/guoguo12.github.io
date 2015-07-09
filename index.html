@@ -87,7 +87,7 @@ This summer, I'm interning at <a href="http://remeeting.com" target="_blank">Rem
 <ul class="pushdown">
 <li>Google Docs add-on for making long URLs shorter</li>
 <li>Written in JavaScript using <a href="https://developers.google.com/apps-script/" target="_blank">Google Apps Script</a></li>
-<li>Installed over 15,000 times</li>
+<li>Installed over 17,000 times</li>
 </ul>
 <hr>
 
@@ -225,14 +225,15 @@ Discrete math, linear algebra, data structures, and <i>SICP</i>.
 <span class="fr hidden-xs hidden-sm">March 2015 &ndash; Present</span>
 // Software Developer Intern
 <ul class="pushdown">
-<li>Contributed to an audio playback and analysis app written in AngularJS</li>
+<li>Contributed to a meeting analysis web app written in AngularJS</li>
+<li>Wrote Go code for a speech recognition and speaker identification pipeline</li>
 </ul>             
 <b>UC Berkeley EECS Department</b>
 <span class="fr hidden-xs hidden-sm">January 2015 &ndash; Present</span>
 // CS 61AS Reader
 <ul class="pushdown">
 <li>Graded quizzes, tests, and projects for roughly 30 students</li>
-<li>Worked with TAs to lead discussion sections and refine course materials</li>
+<li>Designed and built our course website (recently <a href="https://news.ycombinator.com/item?id=9838196" target="_blank">featured</a> on Hacker News)</li>
 </ul>        
 <b>The Daily Californian</b>
 <span class="fr hidden-xs hidden-sm">September 2014 &ndash; January 2015</span>
@@ -260,7 +261,7 @@ Discrete math, linear algebra, data structures, and <i>SICP</i>.
 <h3>Skills</h3>
 <ul>
 <li>Very comfortable with: Python, Java, Scheme, HTML/CSS</li>
-<li>Proficient in: JavaScript, Haskell</li>
+<li>Proficient in: JavaScript, Haskell, Go</li>
 <li>Frameworks/libraries/tools: Android, AngularJS, Bootstrap, jQuery, Git, and Linux</li>
 </ul>
 <hr>
@@ -283,6 +284,20 @@ See my dedicated <a class="internal slidenav" href="#projects">projects page</a>
 
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="js/lightbox.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49126820-1', 'auto');
+  ga('send', 'pageview');
+
+  $('a').click(function() {
+    ga('send', 'event', 'homepage', 'link', $(this).attr('href'));
+  });
+
+</script>
 <script>
 var currentSlide = 'home';
 var slides = ['home', 'about', 'posts', 'projects', 'resume'];
