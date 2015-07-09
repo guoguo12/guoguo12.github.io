@@ -331,6 +331,11 @@ $(function() {
   });
   // Fade in left side
   $('.left *').fadeTo(400, 1);
+  // Make back button work
+  $(window).on('hashchange', function() {
+    updateFromUrl();
+    refreshSlide();
+  });
 });
 </script>
 </body>
