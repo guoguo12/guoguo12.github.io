@@ -47,6 +47,11 @@ img {
   padding: 5%;
 }
 
+.poetry-top {
+/*  word-spacing: 9999999px;
+*/  padding-bottom: 20px;
+}
+
 h1 {
   font-size: 2.1em;
   line-height: 100%;
@@ -183,4 +188,21 @@ ul.other-projects li:not(:first-child) {
   max-width: 20%;
   border: 1px solid gray;
   margin: 5px;
+}
+
+::selection {
+  background: yellow;
+}
+
+::-moz-selection {
+  background: yellow;
+}
+
+
+.left ::selection {
+  background: red;
+}
+
+.left ::-moz-selection {
+  background: red;
 }
