@@ -26,6 +26,8 @@ allen guo
 <a class="slidenav" href="#projects">projects</a>
 <a class="slidenav" href="#resume">resume</a>
 <a href="https://github.com/guoguo12" target="_blank">view on github</a>
+<br>
+<a class="slidenav" href="#desk">my desk</a>
 </div>
 
 <div class="right">
@@ -280,6 +282,18 @@ See my dedicated <a class="internal slidenav" href="#projects">projects page</a>
 <br>4th Place (Team Award)
 </p>        
 </div>
+<div id="desk" class="custom-scrollbar">
+<h2>my desk</h2>
+If I had a Twitter, I'd be tweeting these.
+<!--<h3>Articles of Interest</h3>-->
+<ul>
+<li><a href="https://medium.com/@folz/selling-out-and-the-death-of-hacker-culture-fec1f101b138">"Selling Out and the Death of Hacker Culture"</a> by Rodney Folz</li>
+<li><a href="https://medium.com/the-wtf-economy/the-shut-in-economy-ec3ec1294816">"The Shut-In Economy"</a> by Lauren Smiley</li>
+</ul>
+
+<i><small>Last updated 21 September 2015.</small></i>
+</div>
+
 </div>
 
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -300,12 +314,12 @@ See my dedicated <a class="internal slidenav" href="#projects">projects page</a>
 </script>
 <script>
 var currentSlide = 'about';
-var slides = ['home', 'about', 'posts', 'projects', 'resume'];
+var slides = ['home', 'about', 'posts', 'projects', 'resume', 'desk'];
 
 var refreshSlide = function() {
   for (var i = 0; i < slides.length; i++) {
     if (slides[i] == currentSlide) {
-      $('#' + currentSlide).fadeIn(600);
+      $('#' + currentSlide).fadeIn(300);
     } else {
       $('#' + slides[i]).hide();
     }
