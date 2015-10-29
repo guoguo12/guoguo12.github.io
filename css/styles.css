@@ -200,11 +200,89 @@ ul.other-projects li:not(:first-child) {
   background: yellow;
 }
 
-
 .left ::selection {
   background: red;
 }
 
 .left ::-moz-selection {
   background: red;
+}
+
+.article-top {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 400px;
+  margin-bottom: 50px;
+}
+
+.article-top div.header-text {
+  color: #FFF;
+  margin: 0px auto;
+  width: 50%;
+  padding-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.header-right {
+  font-size: 0.62em;
+  float: right;
+}
+
+.header-right a {
+  margin-left: 40px;
+  color: #FFF;
+  text-decoration: none;
+}
+
+.article {
+  font-size: 0.52em;
+  margin: 0px auto;
+  width: 90%;
+  margin-bottom: 50px;
+}
+
+.article a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.article span.byline {
+  color: #757575;
+}
+
+.article-body {
+  line-height: 170%;
+}
+
+.article-body h3 {
+  font-size: 2em;
+  margin-bottom: 25px
+}
+
+.article-body p {
+  margin: 18px 0px;
+}
+
+.article-body p code {
+  background-color: #F2F2F2;
+  color: #905;
+  padding: 3px;
+}
+
+.article-body blockquote {
+  border-left: 5px solid rgba(30, 161, 255, 0.5);
+  padding: 10px 0px 10px 10px;
+}
+
+.article-body pre code {
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+@media (min-width: 992px) {
+  .article {
+    width: 40%;
+  }
 }
