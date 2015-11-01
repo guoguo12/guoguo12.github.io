@@ -200,6 +200,14 @@ ul.other-projects li:not(:first-child) {
   background: yellow;
 }
 
+pre ::selection {
+  background: green;
+}
+
+pre ::-moz-selection {
+  background: green;
+}
+
 .left ::selection {
   background: red;
 }
