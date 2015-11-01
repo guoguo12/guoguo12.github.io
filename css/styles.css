@@ -225,6 +225,11 @@ ul.other-projects li:not(:first-child) {
   font-weight: bold;
 }
 
+.article-top div.header-text a {
+  color: #FFF;
+  text-decoration: none;
+}
+
 .article-top-placeholder {
   height: 400px;
   margin-bottom: -400px;
@@ -241,8 +246,6 @@ ul.other-projects li:not(:first-child) {
 
 .header-right a {
   margin-left: 40px;
-  color: #FFF;
-  text-decoration: none;
 }
 
 .article {
@@ -257,6 +260,10 @@ ul.other-projects li:not(:first-child) {
   color: inherit;
 }
 
+.article h2 {
+  font-size: 2.2em;
+}
+
 .article span.byline {
   color: #757575;
 }
@@ -266,7 +273,7 @@ ul.other-projects li:not(:first-child) {
 }
 
 .article-body h3 {
-  font-size: 2em;
+  font-size: 1.9em;
   margin-bottom: 25px
 }
 
@@ -278,6 +285,8 @@ ul.other-projects li:not(:first-child) {
   background-color: #F2F2F2;
   color: #905;
   padding: 3px;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 .article-body blockquote {
