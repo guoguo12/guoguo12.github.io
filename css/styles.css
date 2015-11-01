@@ -225,6 +225,15 @@ ul.other-projects li:not(:first-child) {
   font-weight: bold;
 }
 
+.article-top-placeholder {
+  height: 400px;
+  margin-bottom: -400px;
+  background-color: black;
+  position: relative;
+  top: -450px;
+  z-index: -1;
+}
+
 .header-right {
   font-size: 0.62em;
   float: right;
