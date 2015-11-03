@@ -38,7 +38,7 @@
 
 <div class="article">
 <h2>A concise prefix notation calculator in Python</h2>
-<span class="byline">Published 1 November 2015 &mdash; 5 minute read
+<span class="byline">Published 1 November 2015 &mdash; 10 minute read
 </span>
 
 <div class="article-body">
@@ -55,38 +55,138 @@ If you've worked in Lisp before, you know what this is.
 <p>
 The typical process of parsing prefix notation involves breaking the input into tokens, assembling an abstract syntax tree (AST), then evaluating using recursion. This works very well, and can easily be extended to include more powerful Lisp-y features like environments and mutation.
 <p>
-Peter Norvig's classic <a href="http://norvig.com/lispy.html" target="_blank">"How to Write a Lisp Interpreter in Python"</a> uses this method. The main parsing procedure converts the input expression into a nested list:
+Peter Norvig's classic <a href="http://norvig.com/lispy.html" target="_blank">"How to Write a Lisp Interpreter in Python"</a> uses this method. The main parsing procedure converts an expression into a nested list:
 
 <pre class="python"><code>>>> parse('(+ 1 (- 2 3))')
 ['+', 1, ['-', 2, 3]]
 </code></pre>
 <p>
-This list is then fed to the <code>eval</code> procedure. It evaluates an expression by first evaluating the arguments, then applying the operator to them:
+This list is then fed to the <code>eval</code> procedure. It evaluates an expression by first evaluating the arguments recursively, then calling the operator on them:
 <pre class="python"><code>>>> eval(['+', 1, ['-', 2, 3]])
 0
 </code></pre>
 <p>
-(The addition symbol <code>'+'</code> is eventually converted into Python's <code>operator.add</code>.)
+(The operator is also evaluated. In the example above, the addition symbol <code>'+'</code> is eventually converted into Python's <code>operator.add</code>.)
 <p>
-This process works well for evaluating prefix notation expressions in general. But if we're not looking to write a full-blown Lisp, can we be more simple?
+This process works well for evaluating prefix notation expressions in general. But suppose we aren't writing a full-blown Lisp. Can we be more simple?
 
 <h3>Regex to the rescue</h3>
 <p>
 <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">Regular expressions</a> are great.
 We can use them to search and match for patterns in strings.
+<p>
+How would we match a flat (non-nested) prefix notation expression like <code>(+ 1 2)</code> with regex?
+Here's one possibility:
+<pre class="xml"><code>\([-+\/\*] \d+ \d+\)</code></pre>
+<p>
+This regex says that the operator must be either <code>+</code>, <code>-</code>, <code>*</code>, or <code>/</code>, and that each argument must be some sequence of digits (0&ndash;9). The entire expression must be wrapped in a set of parentheses.
+<p>
+How do we evaluate? We can modify the regex to capture the operator and arguments, and then we can rearrange them to form a typical (infix notation) Python expression, which we can pass to Python's <code>eval</code>.
+So to evaluate <code>(+ 1 2)</code>, we would end up calling <code>eval('1 + 2')</code>.
+<p>
+Here's how that looks:
+<pre class="python"><code>import re
+
+def calc_eval(exp):
+    m = re.match(r'\(([-+\/\*]) (\d+) (\d+)\)', exp)
+    if m:
+        return eval('%s %s %s' % (m.group(2), m.group(1), m.group(3)))
+    raise SyntaxError('Not well formed')
+</code></pre>
+<p>
+Let's see this in action:
+<pre class="python"><code>>>> calc_eval('(+ 1 2)')
+3
+>>> calc_eval('(- 5 12)')
+-7
+>>> calc_eval('/ 12 5')  # Forgot parens
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 5, in calc_eval
+SyntaxError: Not well formed
+</code></pre>
+Great! We can now evaluate any prefix notation expression that does not contain nested subexpressions.
+
+<h3>Recursive pattern-matching</h3>
+<p>
+But what about expressions with "depth" like <code>(+ (- 1 2) 3)</code>? We need to be able to find expressions <i>inside</i> of other expressions.
+<p>
+How would we extend the regex above to allow one layer of nesting, e.g. <code>(+ (+ 1 2) (+ 3 4))</code>? Perhaps we could replace each argument (<code>\d+</code>) with a copy of the entire regex, like this:
+<pre class="xml"><code>\([-+\/\*] <span style="color:cyan">\([-+\/\*] \d+ \d+\)</span> <span style="color:magenta">\([-+\/\*] \d+ \d+\)</span>\)
+</code></pre>
+<p>
+But this gets messy fast. Besides, we still wouldn't be able to match <i>arbitrarily</i> nested expressions.
+<p>
+Suppose we could use <code>(?R)</code> in our regex to indicate a <b>recursive match</b>. A substring matches <code>(?R)</code> if and only if it also matches the regex as a whole.
+<p>
+For example, consider the following regex:
+<pre class="xml"><code>happy(?R)?</code></pre>
+<p>
+This regex says, "Find the string <code>happy</code>, possibly followed by a string that also matches the regex <code>happy(?R)?</code>." So it would match <code>happy</code>, but it would also match <code>happyhappy</code>, or <code>happyhappyhappy</code>, or <code>happyhappyhappyhappy</code>, and so on.
+<p>
+With <code>(?R)</code>, our regex is no longer used just once, from left to right&mdash;we can now match patterns <i>recursively</i>.
+<p>
+Now, returning to our original problem, let's use <code>(?R)</code> to match nested prefix notation expressions:
+<pre class="xml"><code>\([-+\/\*] (?R) (?R)\)|\d+</code></pre>
+<p>
+This says that a valid prefix notation expression is either a number (<code>\d+</code>) or a function application, in which case we have a math operator followed by two arguments, each of which is also a valid prefix notation expression.
+<p>
+Note that the <code>|\d+</code> is very important. It lets us accept integers as valid input expressions, and it serves as the "base case" in our recursion: without it, our calculator would only accept expressions that are endlessly nested.
+<p>
+Okay, great. Now it would be nice if this <code>(?R)</code> feature existed.
+Here's the good news: it does!
+It's called a <a href="http://www.rexegg.com/regex-recursion.html" target="_blank">recursive pattern</a>, and it works out-of-the-box with certain programming languages. The bad news is that Python isn't one of them. Instead of using <code>re</code>, we'll need the <code>regex</code> module (<a href="https://pypi.python.org/pypi/regex" target="_blank">doc</a>), which we can install with <code>pip install regex</code>.
+<p>
+We're now ready to write our recursive prefix notation calculator.
+We'll use the regular expression we just wrote, but we'll throw in some parens to capture the tokens we want.
+Our code looks very similar to what we had before, except we now have to recursively evaluate function arguments:
+<pre class="python"><code>import regex
+
+def calc_eval(exp):
+    m = regex.match(r'\(([-+\/\*]) ((?R)) ((?R))\)|(\d+)', exp)
+    if m.group(1) and m.group(2) and m.group(3):  # exp is a procedure call
+        return eval('%s %s %s' % (calc_eval(m.group(2)),
+                                  m.group(1),
+                                  calc_eval(m.group(3))))
+    if m.group(4):  # exp is a number
+        return str(eval(m.group(4)))
+    raise SyntaxError('Not well formed')
+</code></pre>
+<p>
+Let's see how it fares&hellip;
+<pre class="python"><code>>>> calc_eval('(+ 1 2)')  # Make sure this still works
+3
+>>> calc_eval('(+ (/ 100 (+ 50 50)) (- 5 3))')  # Nested expressions!
+3
+</code></pre>
+
+We've done it! We can now evaluate prefix notation expressions with arbitrarily nested subexpressions, and we're doing it cleanly and concisely.
+Pretty cool, right?
+
+<h3>Our final code</h3>
+<p>
+If we care less about error-handling, we can get our 
+<code>calc_eval</code> procedure down to just five lines, while still being somewhat readable:
+
+<pre class="python"><code>def calc_eval(exp):
+    m = regex.match(r'\(([-+\/\*]) ((?R)) ((?R))\)|(\d+)|[-+\/\*]', exp)
+    if all(map(m.group, [1, 2, 3])):  # exp is a procedure call
+        return eval(' '.join([str(calc_eval(m.group(i))) for i in [2, 1, 3]]))
+    return eval(exp) if m.group(4) else exp  # exp is a number / an operator
+</code></pre>
+
+The complete version of the code (which includes a REPL) can be found on <a href="https://gist.github.com/guoguo12/dfa2ed858821aa98da57" target="_blank">GitHub Gist</a>.
 
 </div>
-
 <hr>
 
-If you liked this, you might also enjoy my <a href="/#articles">other works</a>.
+If you liked this, you might also enjoy my <a href="/#essays">other works</a>.
 <p>
 <i><span class="byline">
-Top photo (CC-BY-SA) by Jimmy Wales.
 </span></i>
 
 </div>
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="../js/jquery-1.11.2.min.js"></script>
 <script src="../js/highlight.pack.js"></script>
 <script src="../js/lightbox.min.js"></script>
 <script>
