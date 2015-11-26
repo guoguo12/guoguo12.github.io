@@ -43,10 +43,6 @@ if [ -z "$SSH_AUTH_SOCK" -a -x "$SSHAGENT" ]; then
  trap "kill $SSH_AGENT_PID" 0
 fi
 
-# Show welcome message
-cat /etc/motd
-date +'Today is %A, %B %d. It is %I:%M:%S %p.'
-
 # Silent SimpleHTTPServer
 function sf {
  python -m SimpleHTTPServer "$1" > /dev/null 2>&1 &
