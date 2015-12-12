@@ -188,7 +188,7 @@ ul.other-projects li:not(:first-child) {
 #projects img {
   float: right;
   max-width: 20%;
-  border: 1px solid gray;
+  border: 1px solid #CCC;
   margin: 5px;
 }
 
