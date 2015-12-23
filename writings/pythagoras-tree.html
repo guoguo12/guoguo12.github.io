@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!---
+ "He felt that his whole life was some kind of dream
+   and he sometimes wondered whose it was
+     and whether they were enjoying it."
+      
+              --Douglas Adams, 'The Hitchhiker's Guide to the Galaxy'
+---->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Drawing a Pythagoras tree using Racket - Allen Guo</title>
+  <meta name="author" content="Allen Guo">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/monokai-sublime.css">
+  <link rel="stylesheet" href="../css/lightbox.css">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <style>
+  .article-top {
+    background-color: #315C6C;
+  }
+  </style>
+</head>
+<body>
+<div class="article-top hidden-sm hidden-xs">
+<div class="header-text">
+<a target="_blank" href="/">allen guo</a>
+<span class="header-right">
+<a target="_blank" href="/#about">about me</a>
+<a target="_blank" href="https://github.com/guoguo12" target="_blank">github</a>
+</span>
+</div>
+</div>
+<div class="article-top-placeholder hidden-sm hidden-xs">
+<!-- Prevents top from being white as image loads. -->
+</div>
+
+<div class="article">
+<h2>Drawing a Pythagoras tree using Racket</h2>
+<span class="byline">Published 23 December 2015 &mdash; 10 minute read
+</span>
+
+<div class="article-body">
+
+
+<p>In this post, inspired by this week's <a target="_blank" href="http://daily-javascript.com/challenges/pythagoras-tree/">Daily JavaScript challenge</a>, I'll walk through how to use Racket's <a target="_blank" href="http://docs.racket-lang.org/turtles/index.html">turtle graphics library</a> to draw a <a target="_blank" href="https://en.wikipedia.org/wiki/Pythagoras_tree_(fractal)">Pythagoras tree</a>. I'll assume basic familiarity with <a href="http://racket-lang.org/" target="_blank">Racket</a>, but not with turtle graphics.</p>
+
+<p>Our final result will look like this:</p>
+
+<p><img src="img/pythagoras-tree-cropped.png"></p>
+<h3 id="getting-started"><a name="user-content-getting-started" href="#getting-started" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Getting started</h3>
+
+<p>Assuming we already have <a target="_blank" href="http://racket-lang.org/">Racket</a>, we'll need to install the <code>htdp-lib</code> package by typing the following into our terminal:</p>
+<pre class="bash"><code>raco pkg install htdp-lib
+</code></pre>
+
+
+<p>Now we can start. Let's create a new file called <code>pythagoras-tree.rkt</code>. It should start with</p>
+<pre class="scheme"><code>#lang racket
+
+(require graphics/turtles)
+(turtles #t)
+</code></pre>
+
+
+<p>which imports the turtle graphics library and initializes the drawing window. If we run the program (<code>racket pythagoras-tree.rkt</code>), we see an empty window containing a small red triangle:</p>
+
+<p><img src="img/turtle-home.png"></p>
+<h3 id="turtles"><a name="user-content-turtles" href="#turtles" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Turtles</h3>
+
+<p>The red triangle in the center is a <strong>turtle</strong>. It is capable of moving in a straight line and turning in place. It can also draw while moving.</p>
+
+<p>We give the turtle instructions by using commands like the following:</p>
+<ul>
+<li><code>(move 10)</code> means move 10 pixels forward without drawing.</li>
+<li><code>(draw 10)</code> means move 10 pixels forward while drawing.</li>
+<li><code>(turn 45)</code> means turn 45 degrees counter-clockwise.</li>
+</ul>
+
+<p>You can find a full list of turtle commands <a target="_blank" href="http://docs.racket-lang.org/turtles/Traditional_Turtles.html">here</a>.</p>
+
+<p>Now consider the following procedure:</p>
+<pre class="scheme"><code>(define (draw-stuff x) ; starting position: facing east
+  (draw x)             ; draw east x pixels
+  (turn 90)            ; turn north
+  (draw x))            ; draw north x pixels
+</code></pre>
+
+
+<p>Calling <code>(draw-stuff 100)</code> would produce the following drawing:</p>
+
+<p><img src="img/turtle-1.png"></p>
+
+<p>Notice that the turtle is now pointing north.</p>
+
+<p>We can extend this. Let's define <code>draw-stuff-2</code>:</p>
+<pre class="scheme"><code>(define (draw-stuff-2 x) ; starting position: facing east
+  (draw x)               ; draw east x pixels
+  (turn 90)              ; turn north
+  (draw x)               ; draw north x pixels
+  (turn 90)              ; turn west
+  (draw x)               ; draw west x pixels
+  (turn 90)              ; turn south
+  (draw (- x 5))         ; draw south x-5 pixels
+  (turn 90)              ; turn east 
+  (draw 5))              ; draw east 5 pixels
+</code></pre>
+
+
+<p>Now when we make the calls</p>
+<pre class="scheme"><code>(draw-stuff-2 100)
+(draw-stuff-2 90)
+(draw-stuff-2 80)
+(draw-stuff-2 70)
+</code></pre>
+
+
+<p>we get the following:</p>
+
+<p><img src="img/turtle-2.png"></p>
+
+<p>But making four separate calls to <code>draw-stuff-2</code> is annoying! Let's make our drawing function recursive:</p>
+<pre class="scheme"><code>(define (draw-stuff-3 x) ; starting position: facing east
+  (if (= x 0)            ; base case: we can't draw a spiral with 0 width!
+      'done
+      (begin
+        (draw x)         ; same as in draw-stuff-2
+        (turn 90)
+        (draw x)
+        (turn 90)
+        (draw x)
+        (turn 90)
+        (draw (- x 5))
+        (turn 90)
+        (draw 5)
+        (draw-stuff-3 (- x 10))))) ; recurse!
+</code></pre>
+
+
+<p>Now calling <code>(draw-stuff-3 350)</code> gives us a neat spiral:</p>
+
+<p><img src="img/turtle-3.png"></p>
+
+<p>(Mental exercise: Our spiral is off-center. Assuming our drawing window is 800 pixels wide, how would we make it centered in the drawing window?)</p>
+<h3 id="drawing-the-pythagoras-tree"><a name="user-content-drawing-the-pythagoras-tree" href="#drawing-the-pythagoras-tree" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Drawing the Pythagoras tree</h3>
+
+<p>Now back to our original goal: drawing a Pythagoras tree.</p>
+
+<p>We start by drawing a square that is <code>side</code> pixels wide and <code>side</code> pixels high. We can do this by first moving to the center of the northern edge of the square, then drawing along the perimeter counter-clockwise until we're done:</p>
+<pre class="scheme"><code>(define (pythagoras-tree side) ; starting position: center of square, facing east
+  (let ((half-side (/ side 2)))
+    (turn 90)          ; now facing north
+    (move half-side)   ; move north
+    (turn 90)          ; now facing west
+    (draw half-side)   ; draw west
+    (turn 90)          ; now facing south
+    (draw side)        ; draw south
+    (turn 90)          ; now facing east
+    (draw side)        ; draw east
+    (turn 90)          ; now facing north
+    (draw side)        ; draw north
+    (turn 90)          ; now facing west
+    (draw half-side))) ; draw west
+</code></pre>
+
+
+<p>Calling <code>(pythagoras-tree 100)</code> produces the following:</p>
+
+<p><img src="img/pythagoras-tree-1.png"></p>
+
+<p>Now what? We're going to recurse, but we'll be drawing <em>two</em> squares in the next step. In fact, with every step we'll double the number of squares to draw!</p>
+
+<p>To proceed, we'll use the <code>split</code> procedure, which creates a new turtle where our current turtle is located. Any command we issue will then be executed by <em>both</em> turtles. Check out the documentation for the <code>split</code> procedure <a target="_blank" href="http://docs.racket-lang.org/turtles/Traditional_Turtles.html#%28form._%28%28lib._graphics%2Fturtles..rkt%29._split%29%29">here</a>.</p>
+
+<p>Currently, at the end of our <code>pythagoras-tree</code> procedure, we're at the top of the current square (which we've just drawn) and we're facing west. We should now turn to face northwest, then <code>split</code> off another turtle facing northeast:</p>
+<pre class="scheme"><code>(turn -45)         ; turn turtle 1 (current turtle) to face northwest
+(split (turn -90)) ; create and turn turtle 2 to face northeast
+</code></pre>
+
+<p>Great! Now we have two turtles: The one facing northwest will draw the smaller square in the northwest corner. The one facing northeast will draw the smaller square in the northeast corner. Each will then <code>split</code> again, producing four turtles in total, then eight, and so on.</p>
+
+<p>Before we recursively call <code>pythagoras-tree</code>, we have to move our turtles to the appropriate places. Each turtle should be at the center of its new square, facing east relative to the square.</p>
+<pre class="scheme"><code>(move (* half-side (sqrt 2))) ; move both turtles to the centers of the new squares
+(turn -90)                    ; adjust them to face east
+(pythagoras-tree (* (/ (sqrt 2) 2) side)) ; recurse!
+</code></pre>
+
+
+<p>The mathematical calculations involved are captured in this crude diagram:</p>
+
+<p><img src="img/pythagoras-tree-2.png"></p>
+<h3 id="our-final-code"><a name="user-content-our-final-code" href="#our-final-code" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Our final code</h3>
+
+<p>Now we simply add a base case, and we're done:</p>
+<pre class="scheme"><code>(define (pythagoras-tree side) ; starting position: center of square, facing east
+  (if (&lt; side 3) ; this seems like a good stopping point...
+      (home)     ; clear all turtles except the original
+      (let ((half-side (/ side 2)))
+        (turn 90)        ; now facing north
+        (move half-side) ; move north
+        (turn 90)        ; now facing west
+        (draw half-side) ; draw west
+        (turn 90)        ; now facing south
+        (draw side)      ; draw south
+        (turn 90)        ; now facing east
+        (draw side)      ; draw east
+        (turn 90)        ; now facing north
+        (draw side)      ; draw north
+        (turn 90)        ; now facing west
+        (draw half-side) ; draw west
+
+        (turn -45)         ; turn turtle 1 (current turtle) to face northwest
+        (split (turn -90)) ; create and turn turtle 2 to face northeast
+
+        (move (* half-side (sqrt 2))) ; move both turtles to the centers of the new squares
+        (turn -90)                    ; and adjust them to face east
+        (pythagoras-tree (* (/ (sqrt 2) 2) side))))) ; recurse!
+</code></pre>
+
+
+<p>And now we call <code>(pythagoras-tree 100)</code> and we get:</p>
+
+<p><img src="img/pythagoras-tree-3.png"></p>
+
+
+<p>The complete version of the code (which includes a REPL) can be found on <a href="https://gist.github.com/guoguo12/305d583c0f3e47461bfd" target="_blank">GitHub Gist</a>.</p>
+
+</div>
+<hr>
+
+If you liked this, you might also enjoy my <a target="_blank" href="/#writings">other works</a>.
+
+<p>
+<i><span class="byline">
+</span></i>
+
+</div>
+<script src="../js/jquery-1.11.2.min.js"></script>
+<script src="../js/highlight.pack.js"></script>
+<script src="../js/lightbox.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49126820-1', 'auto');
+  ga('send', 'pageview');
+
+  $('a').click(function() {
+    ga('send', 'event', 'homepage', 'link', $(this).attr('href'));
+  });
+
+</script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

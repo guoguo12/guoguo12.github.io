@@ -289,12 +289,18 @@ pre ::-moz-selection {
   margin: 18px 0px;
 }
 
-.article-body p code {
+.article-body p code, .article-body li code {
   background-color: #F2F2F2;
   color: #905;
   padding: 3px;
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.article-body img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .article-body blockquote {
