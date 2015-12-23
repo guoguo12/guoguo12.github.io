@@ -7,6 +7,7 @@ alias lsal='ls -al'
 alias rm='rm -i'
 alias vi='vim'
 alias npmlink='PATH=$(npm bin):$PATH'
+alias drr='screen -dRR'
 
 # Git
 alias gs="git status" 
