@@ -178,9 +178,9 @@
 (split (turn -90)) ; create and turn turtle 2 to face northeast
 </code></pre>
 
-<p>Great! Now we have two turtles: The one facing northwest will draw the smaller square in the northwest corner. The one facing northeast will draw the smaller square in the northeast corner. Each will then <code>split</code> again, producing four turtles in total, then eight, and so on.</p>
+<p>Great! Now we have two turtles: The one facing northwest will draw the smaller square in the northwest corner. The one facing northeast will draw the smaller square in the northeast corner. Each will then <code>split</code> again, so that there are four turtles in total (and then eight, and then 16, and so on).</p>
 
-<p>Before we recursively call <code>pythagoras-tree</code>, we have to move our turtles to the appropriate places. Each turtle should be at the center of its new square, facing east relative to the square.</p>
+<p>Before we can recursively call <code>pythagoras-tree</code>, we must move our turtles to the appropriate starting positions. Each turtle should be at the center of its new square, facing east relative to the square.</p>
 <pre class="scheme"><code>(move (* half-side (sqrt 2))) ; move both turtles to the centers of the new squares
 (turn -90)                    ; adjust them to face east
 (pythagoras-tree (* (/ (sqrt 2) 2) side)) ; recurse!
@@ -192,7 +192,7 @@
 <p><img src="img/pythagoras-tree-2.png"></p>
 <h3 id="our-final-code"><a name="user-content-our-final-code" href="#our-final-code" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Our final code</h3>
 
-<p>Now we simply add a base case, and we're done:</p>
+<p>Now we simply add a base case, and we're done! Here's our completed <code>pythagoras-tree</code> procedure:</p>
 <pre class="scheme"><code>(define (pythagoras-tree side) ; starting position: center of square, facing east
   (if (&lt; side 3) ; this seems like a good stopping point...
       (home)     ; clear all turtles except the original
@@ -229,7 +229,7 @@
 </div>
 <hr>
 
-If you liked this, you might also enjoy my <a target="_blank" href="/#writings">other works</a>.
+If you liked this, you might also enjoy my <a href="/#writings">other works</a>.
 
 <p>
 <i><span class="byline">
