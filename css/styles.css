@@ -20,6 +20,10 @@ img {
   max-width: 100%;
 }
 
+span.hint--bottom {
+  background-color: #EEE;
+}
+
 .outer {
   display: flex;
   flex-wrap: wrap;
