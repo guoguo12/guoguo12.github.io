@@ -378,7 +378,9 @@ Aritlces, essays, and other things I've written:
 
 </script>
 <script>
-var currentSlide = 'about';
+DEFAULT_SLIDE = 'about';
+
+var currentSlide = '';
 var slides = ['home', 'about', 'projects', 'resume', 'reads', 'writings'];
 
 var refreshSlide = function() {
@@ -394,7 +396,9 @@ var refreshSlide = function() {
 
 var updateFromUrl = function() {
   var path = location.href.split('#')[1];
-  if (slides.indexOf(path) != -1) {
+  if (!path) {
+    currentSlide = DEFAULT_SLIDE;
+  } else if (slides.indexOf(path) != -1) {
     currentSlide = path;
   }
 }
