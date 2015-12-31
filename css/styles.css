@@ -8,6 +8,17 @@ html {
   font-size: 100%;
 }
 
+/* Smartphones */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  html {
+    font-size: 90%;
+  }
+
+  div.half {
+    width: 100% !important;
+  }  
+}
+
 body {
 font-family: 'Roboto', sans-serif;
   font-weight: 400;
@@ -85,8 +96,7 @@ ul {
 
 li {
   list-style-type: circle;
-  margin-left: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 0.4em;
 }
 
 div.half {
