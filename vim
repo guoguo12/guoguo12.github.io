@@ -21,5 +21,9 @@ set autoindent
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+"set shiftwidth=2
+"set tabstop=2
+
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 
 set splitright
