@@ -1,5 +1,7 @@
 [user]
 	email = guoguo12@gmail.com
 	name = Allen Guo
+[core]
+  editor = vim
 [push]
-	default = simple
+	default = upstream
