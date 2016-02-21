@@ -71,8 +71,18 @@ function sf {
  python -m SimpleHTTPServer "$1" > /dev/null 2>&1 &
 }
 
-# Prompt (install git-prompt.sh at https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh)
+# Prompt
 LIGHT_GRAY="\[\033[0;37m\]"
 LIGHT_CYAN="\[\033[1;36m\]"
 NO_COLOR="\[\033[0m\]"
+__git_ps1="#" # Placeholder in case git-prompt.sh isn't present
 PS1="\[\`if [[ \$? = "0" ]]; then echo '\n\e[32m\u@\h\e[0m'; else echo '\n\e[31m\u@\h\e[0m' ; fi\`:\w$LIGHT_CYAN\`__git_ps1 ' [%s]'\`$NO_COLOR\n\$ "
+
+# To finish installation
+# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > ~/.git-prompt.sh
+# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
+# git clone https://github.com/rupa/z.git .zfiles
+
+if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; fi
+if [ -f ~/.git-completion.bash ]; then source ~/.git-completion.bash; fi
+if [ -f ~/.zfiles/z.sh ]; then source ~/.zfiles/z.sh; fi
