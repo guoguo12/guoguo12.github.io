@@ -1,13 +1,31 @@
 # General
-alias py='python'
+alias drr='screen -dRR'
 alias jt='python -m json.tool'
 alias ls='ls -GFh --color=tty'
-alias la='ls -A'
-alias lsal='ls -al'
-alias rm='rm -i'
-alias vi='vim'
 alias npmlink='PATH=$(npm bin):$PATH'
-alias drr='screen -dRR'
+alias rm='rm -i'
+alias py='python'
+alias vi='vim'
+
+# Moving around
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ,="cd -"
+
+# History
+export HISTFILESIZE=20000
+export HISTSIZE=10000
+shopt -s histappend
+shopt -s cmdhist
+HISTCONTROL=ignoredups
+export HISTIGNORE="&:ls:[bf]g:exit"
+
+# Bash options
+shopt -s cdspell
+shopt -s globstar
+set -o noclobber
 
 # Git
 alias gs="git status" 
@@ -53,3 +71,8 @@ function sf {
  python -m SimpleHTTPServer "$1" > /dev/null 2>&1 &
 }
 
+# Prompt (install git-prompt.sh at https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh)
+LIGHT_GRAY="\[\033[0;37m\]"
+LIGHT_CYAN="\[\033[1;36m\]"
+NO_COLOR="\[\033[0m\]"
+PS1="\[\`if [[ \$? = "0" ]]; then echo '\n\e[32m\u@\h\e[0m'; else echo '\n\e[31m\u@\h\e[0m' ; fi\`:\w$LIGHT_CYAN\`__git_ps1 ' [%s]'\`$NO_COLOR\n\$ "
