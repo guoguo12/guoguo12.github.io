@@ -85,4 +85,4 @@ PS1="\[\`if [[ \$? = "0" ]]; then echo '\n\e[32m\u@\h\e[0m'; else echo '\n\e[31m
 
 if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; fi
 if [ -f ~/.git-completion.bash ]; then source ~/.git-completion.bash; fi
-if [ -f ~/.zfiles/z.sh ]; then source ~/.zfiles/z.sh; fi
+if [ -f ~/.zfiles/z.sh ]; then . ~/.zfiles/z.sh; fi
