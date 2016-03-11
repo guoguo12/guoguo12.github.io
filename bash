@@ -1,3 +1,9 @@
+# Exit if non-interactive
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
 # General
 alias drr='screen -dRR'
 alias jt='python -m json.tool'
