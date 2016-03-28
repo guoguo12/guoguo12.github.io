@@ -1,3 +1,7 @@
+# To install:
+# curl aguo.us/bash >| ~/.bashrc
+# cat "source ~/.bashrc" >| ~/.bash_profile
+
 # Exit if non-interactive
 case $- in
     *i*) ;;
