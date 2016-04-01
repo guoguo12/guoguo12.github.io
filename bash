@@ -98,6 +98,6 @@ fi
 # curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
 # git clone https://github.com/rupa/z.git .zfiles
 
-if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; else alias __git_ps1='echo ""'; fi
+if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; else alias __git_ps1='echo "$1" > /dev/null'; fi
 if [ -f ~/.git-completion.bash ]; then source ~/.git-completion.bash; fi
 if [ -f ~/.zfiles/z.sh ]; then . ~/.zfiles/z.sh; fi
