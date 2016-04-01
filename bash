@@ -81,21 +81,23 @@ function sf {
  python -m SimpleHTTPServer "$1" > /dev/null 2>&1 &
 }
 
-# Prompt
+# Prompt colors
 LIGHT_PURPLE="\[\033[1;35m\]"
 LIGHT_CYAN="\[\033[1;36m\]"
 NO_COLOR="\[\033[0m\]"
-export __git_ps1="#"  # Placeholder in case git-prompt.sh isn't present
+
+# Prompt
 if [ -n "$STY" ]; then  # If inside a screen...
   PS1="\[\`if [[ \$? = "0" ]]; then echo '\n\e[32m\u@\h\e[0m'; else echo '\n\e[31m\u@\h\e[0m' ; fi\`:\w$LIGHT_CYAN\`__git_ps1 ' [%s]'\`$NO_COLOR $LIGHT_PURPLE[screen]$NO_COLOR\n\$ "
 else
   PS1="\[\`if [[ \$? = "0" ]]; then echo '\n\e[32m\u@\h\e[0m'; else echo '\n\e[31m\u@\h\e[0m' ; fi\`:\w$LIGHT_CYAN\`__git_ps1 ' [%s]'\`$NO_COLOR\n\$ "
 fi
+
 # To finish installation
 # curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > ~/.git-prompt.sh
 # curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
 # git clone https://github.com/rupa/z.git .zfiles
 
-if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; fi
+if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; else alias __git_ps1='echo ""'; fi
 if [ -f ~/.git-completion.bash ]; then source ~/.git-completion.bash; fi
 if [ -f ~/.zfiles/z.sh ]; then . ~/.zfiles/z.sh; fi
