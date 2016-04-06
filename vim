@@ -27,3 +27,19 @@ set expandtab
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 
 set splitright
+
+" Ctrl+F in visual mode to search for visually selected string
+vnoremap <c-f> y<ESC>/<c-r>"<CR>
+
+" From http://vim.wikia.com/wiki/Short_mappings_for_common_tasks
+vmap > >gv
+vmap < <gv
+nnoremap Q @q
+nmap <Space> /
+nmap <C-Space> ?
+imap <up> <C-O>gk
+imap <down> <C-O>gj
+nmap <up> gk
+nmap <down> gj
+vmap <up> gk
+vmap <down> gj
