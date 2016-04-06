@@ -1,6 +1,6 @@
 set nocompatible
 syntax on
-color evening
+"color evening
 set wildmenu
 set showcmd
 set hlsearch
