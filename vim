@@ -28,8 +28,8 @@ set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 
 set splitright
 
-" Ctrl+F in visual mode to search for visually selected string
-vnoremap <c-f> y<ESC>/<c-r>"<CR>
+" // in visual mode to search for visually selected string
+vnoremap // y/<C-R>"<CR>
 
 " From http://vim.wikia.com/wiki/Short_mappings_for_common_tasks
 vmap > >gv
