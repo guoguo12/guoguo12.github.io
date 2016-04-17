@@ -24,6 +24,8 @@ set expandtab
 "set shiftwidth=2
 "set tabstop=2
 
+au! BufNewFile,BufRead *.md set filetype=markdown
+
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 
 set splitright
