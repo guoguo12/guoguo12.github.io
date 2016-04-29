@@ -5,12 +5,12 @@ My home page is http://aguo.us.
 
 For convenience:
 
-* `.bash_profile`: http://aguo.us/bash
+* `.bashrc`: http://aguo.us/bash
 * `.gitconfig`: http://aguo.us/git
 * `.vimrc`: http://aguo.us/vim
 
 For example:
 
 ```bash
-curl aguo.us/bash > ~/.bash_profile
+curl aguo.us/bash >| ~/.bashrc
 ```
