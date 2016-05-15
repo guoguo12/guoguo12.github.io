@@ -63,6 +63,7 @@ alias glgraph="git log --graph --abbrev-commit --decorate --date=relative --all"
 alias glgraph1="git log --graph --oneline --decorate --date=relative --all" 
 alias grhh="git reset --hard HEAD"
 alias grbi="git rebase -i"
+alias gcldf="git clean -df"
 
 # Start SSH agent
 SSHAGENT=/usr/bin/ssh-agent
