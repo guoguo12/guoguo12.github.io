@@ -12,10 +12,8 @@ esac
 alias drr='screen -dRR'
 alias jt='python -m json.tool'
 alias ls='ls -GFh --color=tty'
-alias npmlink='PATH=$(npm bin):$PATH'
 alias rm='rm -i'
-alias py='python'
-alias vi='vim'
+alias vimo='vim -O'
 
 # Moving around
 alias ..="cd .."
