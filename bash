@@ -9,6 +9,7 @@ case $- in
 esac
 
 # General
+alias scr='screen -r'
 alias drr='screen -dRR'
 alias jt='python -m json.tool'
 alias ls='ls -GFh --color=tty'
