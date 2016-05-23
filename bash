@@ -9,8 +9,6 @@ case $- in
 esac
 
 # General
-alias scr='screen -DRS'
-alias drr='screen -dRR'
 alias jt='python -m json.tool'
 alias ls='ls -GFh --color=tty'
 alias rm='rm -i'
@@ -35,6 +33,11 @@ export HISTIGNORE="&:ls:[bf]g:exit"
 shopt -s cdspell
 shopt -s globstar
 set -o noclobber
+
+# Screen
+alias scl='screen -ls'
+alias scr='screen -DRS'
+alias drr='screen -dRR'
 
 # Git
 alias gs="git status" 
