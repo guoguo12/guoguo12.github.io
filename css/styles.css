@@ -296,7 +296,13 @@ pre ::-moz-selection {
 
 .article-body h3 {
   font-size: 1.9em;
-  margin-bottom: 25px
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.article-body h4 {
+  margin-top: 27px;
+  margin-bottom: 20px;
 }
 
 .article-body p {

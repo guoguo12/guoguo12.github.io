@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if [ $# -le 2 ]; then
+    echo 'Usage: ./build-from-markdown <article-name> <args to templater ...>'
+    exit 1;
+fi
+
+src="src/$1.md"
+dest="$1.html"
+
+if [ -f $dest ]; then
+    rm -f $dest
+fi
+
+set -e
+python src/templater.py "$@" > $dest
+markdown2 -x fenced-code-blocks,code-friendly,cuddled-lists $src |\
+    sed 's/<h3/<h4/g' |\
+    sed 's/<h2/<h3/g' >> $dest
+cat src/template-footer.html >> $dest

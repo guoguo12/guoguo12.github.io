@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!---
+ "He felt that his whole life was some kind of dream
+   and he sometimes wondered whose it was
+     and whether they were enjoying it."
+      
+              --Douglas Adams, 'The Hitchhiker's Guide to the Galaxy'
+---->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Train Your Own Pronunciation Generator - Allen Guo</title>
+  <meta name="author" content="Allen Guo">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../css/styles.css">
+  <!-- <link rel="stylesheet" href="../css/monokai-sublime.css"> -->
+  <link rel="stylesheet" href="../css/plain.css">
+  <link rel="stylesheet" href="../css/lightbox.css">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <style>
+  .article-top {
+    background-color: #315C6C;
+  }
+  </style>
+</head>
+<body>
+<div class="article-top hidden-sm hidden-xs">
+<div class="header-text">
+<a href="/">allen guo</a>
+<span class="header-right">
+<a href="/#about">about me</a>
+<a href="https://github.com/guoguo12" target="_blank">github</a>
+</span>
+</div>
+</div>
+<div class="article-top-placeholder hidden-sm hidden-xs">
+<!-- Prevents top from being white as image loads. -->
+</div>
+
+<div class="article">
+<h2>Train Your Own Pronunciation Generator</h2>
+<span class="byline">Published 1 June 2016 &mdash; 11 minute read
+</span>
+
+<div class="article-body" markdown="1">
+<!-- BEGIN MARKDOWN -->
+<p>How do you pronounce "brizzuoplatuong"?</p>
+
+<p>You've probably never heard anyone say "brizzuoplatuong" before, because I made it up. And yet, you were probably able to generate a reasonable pronunciation for it. Your brain has seemingly inferred <em>general rules</em> about how to pronounce English words based on the thousands of words it has heard before. It then applied those rules in generating a pronunciation for the nonce word "brizzuoplatuong".</p>
+
+<p>The technical name for this task is <strong>grapheme-to-phoneme (G2P) conversion</strong>&mdash;that is, translating from alphabetical characters (graphemes) to sounds (phonemes). A fully-trained G2P model can be thought of as a "pronunciation generator": text goes in, pronunciations come out.</p>
+
+<p>In this post, we'll train our very own G2P model using <a href="https://github.com/sequitur-g2p/sequitur-g2p">Sequitur</a>. We'll then evaluate its performance on words it has never seen before, as well as words <em>nobody</em> has ever seen before.</p>
+
+<p>This is a beginner tutorial. The only prerequisite is competency with the command-line.</p>
+
+<h3>Setup</h2>
+
+<p>To begin, clone <a href="https://github.com/sequitur-g2p/sequitur-g2p">Sequitur</a> and follow the installation instructions in the "Installing" section of the README. </p>
+
+<!--(If you're a Docker user, I've checked that Sequitur installs cleanly on [ipython/scipystack](https://hub.docker.com/r/ipython/scipystack/).)-->
+
+<p>To check Sequitur is installed correctly, type <code>g2p.py</code> into terminal. You should see something like this:</p>
+
+<pre><code>$ g2p.py
+Try '/usr/local/bin/g2p.py --help'
+</code></pre>
+
+<p>We'll be training our model on CMUdict, a pronouncing dictionary produced by Carnegie Mellon University. It contains the pronunciations of over 130,000 words! From CMUdict, our model will "learn" general rules about how English words are pronounced. It will then be able to apply those rules to synthesize pronunciations for previously unseen words.</p>
+
+<p>Clone <a href="https://github.com/cmusphinx/cmudict">CMUdict</a>, then open <code>cmudict.dict</code> and carefully examine how it is formatted.
+Here are the first 10 lines:</p>
+
+<pre><code>'bout B AW1 T
+'cause K AH0 Z
+'course K AO1 R S
+'cuse K Y UW1 Z
+'em AH0 M
+'frisco F R IH1 S K OW0
+'gain G EH1 N
+'kay K EY1
+'m AH0 M
+'n AH0 N
+</code></pre>
+
+<p>Some key points about <code>cmudict.dict</code>:</p>
+
+<ul>
+<li>The entire file is sorted alphabetically by line.</li>
+<li>Each line contains a single word, followed by how it is pronounced.</li>
+<li>Some words have multiple pronunciations. Duplicates are numbered. For example, compare "tomato" and "tomato(2)".</li>
+<li>Each pronunciation consists of one or more sounds, which are called <em>phones</em> or <em>phonemes</em>. (We will use these terms interchangeably.)</li>
+<li>Vowel phones carry numerical stress markers (0, 1, or 2).</li>
+</ul>
+
+<p>Note that it's not always obvious what sound a phone represents. For instance, the phone "AH" actually represents the sound "uh", as in "bug". Refer to the "Phoneme Set" section on the <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">CMUdict website</a> for details.</p>
+
+<h3>Data prep</h2>
+
+<p>Before we can start training, we need to clean and divide up the data. To begin, create a working directory and <code>cd</code> into it.</p>
+
+<h4>Cleaning</h3>
+
+<p>For G2P model training, we don't care about stress markings. Multiple pronunciations are okay, but we don't want duplicates to be numbered. We'll also make everything lowercase, for mostly aesthetic reasons. So in short, we want</p>
+
+<pre><code>tomato T AH0 M EY1 T OW2
+tomato(2) T AH0 M AA1 T OW2
+</code></pre>
+
+<p>to turn into</p>
+
+<pre><code>tomato t ah m ey t ow
+tomato t ah m aa t ow
+</code></pre>
+
+<p>I can remember a time when I would gleefully write a Python script to accomplish this transformation. But there's a better way:</p>
+
+<pre><code>cat ~/data/cmudict/cmudict.dict | tr A-Z a-z | sed 's/[()0-9]//g' &gt; all.lex
+</code></pre>
+
+<p>The resulting file, <code>all.lex</code>, is our cleaned dataset.</p>
+
+<h4>Splitting</h3>
+
+<p>By running <code>wc -l all.lex</code>, we observe that our dataset contains 135,025 total words. We'll randomly select 20% (or 27,005 words) to form our test set, which we'll use to evaluate our model's performance later. The remaining 80% (108,020 words) will be our training set.</p>
+
+<pre><code>shuf all.lex -o all.lex  # shuffle all.lex
+head -n 108020 all.lex &gt; train.lex
+tail -n 27005 all.lex &gt; test.lex
+</code></pre>
+
+<p>(Note for ML experts: We don't need to worry about creating a development/validation set because Sequitur can do it automatically.) </p>
+
+<p>We can check our work by making sure <code>all.lex</code> is the same as <code>train.lex</code> prepended to <code>test.lex</code>:</p>
+
+<pre><code>diff &lt;(cat train.lex test.lex) all.lex  # should have empty output
+</code></pre>
+
+<h3>Training</h2>
+
+<p>Now we can train our model. Sequitur makes this very straightforward:</p>
+
+<pre><code>g2p.py --train train.lex --devel 5% --write-model model-1
+g2p.py --model model-1 --ramp-up --train train.lex --devel 5% --write-model model-2
+g2p.py --model model-2 --ramp-up --train train.lex --devel 5% --write-model model-3
+g2p.py --model model-3 --ramp-up --train train.lex --devel 5% --write-model model-4
+</code></pre>
+
+<p>This four-stage process creates an initial model (<code>model-1</code>) then iteratively improves upon it, increasing the model complexity with each stage.</p>
+
+<p>Training might take a while. On my machine, the four steps above ran for about six hours. If you're using a remote server for training (over SSH), be sure to use <code>screen</code> so your processes don't die if your connection drops.</p>
+
+<p>If you'd like to skip ahead, you can download my final model <a href="downloads/model-4">here</a> (5.5 MB).</p>
+
+<h3>Results</h2>
+
+<h4>Manual Inspection</h3>
+
+<p>We can evaluate our model's performance by generating pronunciations for words we know. Let's try the word "crayons":</p>
+
+<pre><code>$ echo crayons | g2p.py --model model-4 --apply -
+crayons k r ey aa n z
+</code></pre>
+
+<p>Pretty cool! The model generated the correct pronunciation. But then again, for me, the word "crayons" was in my training set:</p>
+
+<pre><code>$ grep crayons train.lex
+crayons k r ey aa n z
+</code></pre>
+
+<p>So while it's nice to see that the model seems to have learned <em>something</em>, what we'd really like is visual proof that the rules learned by our model are <em>generalizable</em> to previously unseen words. </p>
+
+<p>To that end, let's try a word that wasn't in CMUdict to begin with, like "lyft":</p>
+
+<pre><code>$ echo lyft | g2p.py --model model-4 --apply -
+lyft    l ih f t
+</code></pre>
+
+<p>Aha! Now we're seeing the magic at work. Our model has apparently <em>learned</em> something about how certain graphemes sound in the context of other graphemes: it seems to "know" that "y" is pronounced like "ih" in the word "lyft".</p>
+
+<p>Let's try another word, "wug" (of <a href="https://en.wikipedia.org/wiki/Jean_Berko_Gleason#Children.27s_learning_of_English_morphology.E2.80.94.E2.80.8B.E2.80.8Bthe_Wug_Test">Wug Test</a> fame):</p>
+
+<pre><code>$ echo wug | g2p.py --model model-4 --apply -
+wug     w ah g
+</code></pre>
+
+<p>Looks good to me! (Remember, the phoneme "ah" corresponds to the "uh" sound, as in "bug". See the <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">CMUdict website</a>.)</p>
+
+<p>Alright, let's try a longer word. How about "<a href="https://en.wikipedia.org/wiki/Supercalifragilisticexpialidocious">supercalifragilisticexpialidocious</a>"?</p>
+
+<pre><code>$ echo supercalifragilisticexpialidocious | g2p.py --model model-4 --apply -
+supercalifragilisticexpialidocious      s uw p er k ae l ah f r ae jh ah l ih s t ih s ah k s p iy ae l ah d ow sh ah s
+</code></pre>
+
+<p>Not bad, but here there are noticeable errors. In particular, the model predicts that the "c" at the end of "fragilistic" is pronounced like "-s", when actually it's pronounced like "-ck". We can reason about why the model might have generated the wrong result: perhaps when the letter "c" occurs directly between the letters "i" and "e"&mdash;such as in "price" or "solstice"&mdash;it is almost always pronounced like "-s".</p>
+
+<p>Now we'll try words that are totally and overtly made up, such as</p>
+
+<pre><code>$ echo brizzuoplatuong | g2p.py --model model-4 --apply -
+brizzuoplatuong b r iy t s uw aa p l ah t w ao ng
+</code></pre>
+
+<p>or</p>
+
+<pre><code>$ echo surprochesamun | g2p.py --model model-4 --apply -
+surprochesamun  s ah p r ow k eh s ah m uw n
+</code></pre>
+
+<p>Do the model's predictions match your own predictions?</p>
+
+<p>Exercise: Try making up words that the model performs really poorly on, relative to your own intuition. Why do you think the model does so poorly on them?</p>
+
+<h4>Test Set</h3>
+
+<p>Finally, we can more convincingly show that our model is generalizable by synthesizing pronunciations for the words in our test set and comparing them to the expected results:</p>
+
+<pre><code>g2p.py --model model-4 --test test.lex &gt; output
+</code></pre>
+
+<p>The last few lines of the output file summarize how the model performed on the test set:</p>
+
+<pre><code>total: 26622 strings, 169607 symbols
+successfully translated: 26622 (100.00%) strings, 169607 (100.00%) symbols
+    string errors:       9528 (35.79%)
+    symbol errors:       14311 (8.44%)
+        insertions:      1355 (0.80%)
+        deletions:       1568 (0.92%)
+        substitutions:   11388 (6.71%)
+translation failed:      0 (0.00%) strings, 0 (0.00%) symbols
+total string errors:     9528 (35.79%)
+total symbol errors:     14311 (8.44%)
+</code></pre>
+
+<p>"Total string errors" is the number of words the model got wrong. "Total symbol errors" is the number of inserted, deleted, or substituted phones across all words.</p>
+
+<h3>Final thoughts</h2>
+
+<p>As a next step, try training more complex models (based on <code>model-4</code>), or playing with the myriad of advanced options that Sequitur offers (try <code>g2p.py --help</code>). How much can you reduce the test error by?</p>
+
+<p>If you're interested in how Sequitur works, check out "Joint-Sequence Models for Grapheme-to-Phoneme Conversion" by Bisani and Ney.</p>
+
+<!--A more recent (2015) paper on G2P that is interesting to read is "Grapheme-to-Phoneme Conversion Using Long Short-Term Memory Recurrent Neural Networks" by Rao et al., available [here](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43264.pdf).-->
+
+<!--According to the paper, a ninth-order model (i.e. `model-9`) ought to achieve a string error rate of ~25% on CMUdict.-->
+
+<p><!--STANDARD FOOTER FOLLOWS-->
+</div>
+<hr></p>
+
+<p>
+If you liked this, check out my <a href="/#writings">other works</a> or find me on <a href="https://github.com/guoguo12" target="_blank">GitHub</a>.
+</p>
+
+<p><p>
+Thanks to Korbinian Riedhammer for reading a draft of this.
+<p></p>
+<!-- END MARKDOWN -->
+</div>
+<script src="../js/jquery-1.11.2.min.js"></script>
+<script src="../js/highlight.pack.js"></script>
+<script src="../js/lightbox.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49126820-1', 'auto');
+  ga('send', 'pageview');
+
+  $('a').click(function() {
+    ga('send', 'event', 'homepage', 'link', $(this).attr('href'));
+  });
+
+</script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
