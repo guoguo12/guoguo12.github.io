@@ -114,7 +114,7 @@ If you'd like to skip ahead, you can download my final model [here](downloads/mo
 
 ## Results
 
-### Manual Inspection
+### Manual inspection
 
 We can evaluate our model's performance by generating pronunciations for words we know. Let's try the word "crayons":
 
@@ -177,7 +177,7 @@ Do the model's predictions match your own predictions?
 
 Exercise: Try making up words that the model performs really poorly on, relative to your own intuition. Why do you think the model does so poorly on them?
 
-### Test Set
+### Test set
 
 Finally, we can more convincingly show that our model is generalizable by synthesizing pronunciations for the words in our test set and comparing them to the expected results:
 
