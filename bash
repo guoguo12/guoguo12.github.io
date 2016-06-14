@@ -32,7 +32,6 @@ export HISTIGNORE="&:ls:[bf]g:exit"
 # Bash options
 shopt -s cdspell
 shopt -s globstar
-set -o noclobber
 
 # Screen
 alias scl='screen -ls'
