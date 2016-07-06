@@ -12,7 +12,6 @@ esac
 alias jt='python -m json.tool'
 alias ls='ls -GFh --color=tty'
 alias rm='rm -i'
-alias vimo='vim -O'
 
 # Moving around
 alias ..="cd .."
