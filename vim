@@ -50,8 +50,8 @@ vmap <up> gk
 vmap <down> gj
 
 " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
-":highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
-":match ExtraWhitespace /\s\+$/
+:highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+:match ExtraWhitespace /\s\+$/
 
 " http://superuser.com/questions/286985/reload-vimrc-in-vim-without-restart
 map <leader>vimrc :vsp ~/.vimrc<cr>
