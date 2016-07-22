@@ -56,3 +56,8 @@ vmap <down> gj
 " http://superuser.com/questions/286985/reload-vimrc-in-vim-without-restart
 map <leader>vimrc :vsp ~/.vimrc<cr>
 autocmd bufwritepost .vimrc source $MYVIMRC
+
+" Custom bindings
+set pastetoggle=<leader>p                 " Toggle paste mode
+map <leader>m :set nonumber mouse-=a<cr>  " Turn off mouse (for copy/paste)
+map <leader>M :set number mouse=a<cr>     " Turn on mouse
