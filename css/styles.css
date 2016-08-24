@@ -139,6 +139,11 @@ ul.other-projects li:not(:first-child) {
   align-self: center;
 }
 
+.larger {
+  font-size: 1.2em;
+  font-family: "Garamond";
+}
+
 .right a {
   color: black;
 }
