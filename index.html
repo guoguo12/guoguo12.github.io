@@ -445,6 +445,13 @@ var updateFromUrl = function() {
     currentSlide = DEFAULT_SLIDE;
   } else if (slides.indexOf(path) != -1) {
     currentSlide = path;
+  } else {
+    path = path.toLowerCase().replace(/[^a-z]+/, '');
+    if (slides.indexOf(path) != -1) {
+      currentSlide = path;
+    } else {
+      currentSlide = DEFAULT_SLIDE;
+    }
   }
 }
 
