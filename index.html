@@ -34,12 +34,9 @@ allen guo
 </div>
 
 <div class="right">
-<div id="home" class="center-self larger">
-<p>
-...the constant gnawing sense of having had, and lost, some infinite thing.</p>
-<p style="text-align: right">
-&mdash;David Foster Wallace
-</p>
+<div id="home" class="center-self quote">
+<p id="quote-text"></p>
+<p style="text-align: right" id="quote-author"></p>
 </div>
 <div id="about" class="custom-scrollbar">
 <h2>about me</h2>
@@ -433,6 +430,9 @@ Aritlces, essays, and other things I've written:
 
 </script>
 <script>
+QUOTES = [
+  '...the constant gnawing sense of having had, and lost, some infinite thing.|David Foster Wallace'
+];
 DEFAULT_SLIDE = 'home';
 
 var currentSlide = '';
@@ -446,8 +446,11 @@ var refreshSlide = function() {
       $('#' + slides[i]).hide();
     }
   }
+  if (currentSlide === 'home') {
+    showQuote();
+  }
   console.log('Switching to ' + currentSlide + ' slide');
-}
+};
 
 var updateFromUrl = function() {
   var path = location.href.split('#')[1];
@@ -456,7 +459,13 @@ var updateFromUrl = function() {
   } else if (slides.indexOf(path) != -1) {
     currentSlide = path;
   }
-}
+};
+
+var showQuote = function() {
+  var quote = QUOTES[Math.floor(Math.random() * QUOTES.length)].split('|');
+  $('#quote-text').html(quote[0]);
+  $('#quote-author').html('&mdash;' + quote[1]);
+};
 
 $(function() {
   // Process URL

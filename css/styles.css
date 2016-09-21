@@ -64,11 +64,6 @@ span.hint--bottom {
   padding: 5%;
 }
 
-.poetry-top {
-/*  word-spacing: 9999999px;
-*/  padding-bottom: 20px;
-}
-
 h1 {
   font-size: 2.1em;
   line-height: 100%;
@@ -139,8 +134,8 @@ ul.other-projects li:not(:first-child) {
   align-self: center;
 }
 
-.larger {
-  font-size: 1.2em;
+.quote {
+  font-size: 1.4em;
   font-family: "Garamond";
 }
 
