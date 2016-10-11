@@ -9,7 +9,10 @@ case $- in
 esac
 
 # General
+alias bc='bc -l'
 alias jt='python -m json.tool'
+alias la='ls -A'
+alias ll='ls -Al'
 alias ls='ls -GFh --color=tty'
 alias rm='rm -i'
 
