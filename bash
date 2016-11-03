@@ -15,6 +15,7 @@ alias la='ls -A'
 alias ll='ls -Al'
 alias ls='ls -GFh --color=tty'
 alias rm='rm -i'
+alias bell='echo -e "\a"'
 
 # Moving around
 alias ..="cd .."
