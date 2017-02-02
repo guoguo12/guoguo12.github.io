@@ -66,4 +66,6 @@ autocmd bufwritepost .vimrc source $MYVIMRC
 set pastetoggle=<leader>p                 " Toggle paste mode
 map <leader>m :set nonumber mouse-=a<cr>  " Turn off mouse (for copy/paste)
 map <leader>M :set number mouse=a<cr>     " Turn on mouse
-map <leader>c :set colorcolumn=80<cr>     " Turn on 80-character guide
+map <leader>c :set colorcolumn=80<cr>     " Turn on line length guide
+map <leader>C :set colorcolumn=0<cr>      " Turn off line length guide
+
