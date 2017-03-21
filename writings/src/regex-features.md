@@ -80,7 +80,7 @@ After implementing the EA as defined above, I immediately ran into an issue with
 -0.0
 ```
 
-I resovled this by incorporating [additive smoothing](https://en.wikipedia.org/wiki/Additive_smoothing):
+I resolved this by incorporating [additive smoothing](https://en.wikipedia.org/wiki/Additive_smoothing):
 
 ```
 >>> import numpy as np

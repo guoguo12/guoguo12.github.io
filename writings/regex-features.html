@@ -132,7 +132,7 @@ The dataset consists of ~1800 8x8 grayscale images, which I binarized.</p>
 -0.0
 </code></pre>
 
-<p>I resovled this by incorporating <a href="https://en.wikipedia.org/wiki/Additive_smoothing">additive smoothing</a>:</p>
+<p>I resolved this by incorporating <a href="https://en.wikipedia.org/wiki/Additive_smoothing">additive smoothing</a>:</p>
 
 <pre><code>&gt;&gt;&gt; import numpy as np
 &gt;&gt;&gt; -entropy(np.array([100, 0, 0]) + 1)  # The addition is broadcast
