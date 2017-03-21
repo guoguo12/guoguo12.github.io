@@ -38,15 +38,16 @@ My assumption is that most meaningful regexes acting on binary strings can be ma
 Next, I set up the EA:
 
 * I defined a single individual as a length-12 array of integers between 0 and 4 (inclusive). Each integer is an index into `regex_comps`. For example, the individual `[0, 1, 0, 1, 2, 3, 2, 3, 2, 4, 2, 4]` corresponds to the regex `0101()?()?()*()*`.
-* I defined a population as a collection of 512 individuals. Each individual in the population was initialized by randomly selecting 12 integers between 0 and 4 (inclusive).
+* I defined a population as a collection of 512 individuals. Each individual in the population is initialized with 12 random integers between 0 and 4 (inclusive).
 * I specified [two-point crossover](https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)) as the mating operator.
 * I specified [uniform random selection](https://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)) as the mutation operator.
 * I specified [tournament selection](https://en.wikipedia.org/wiki/Tournament_selection) as the selection operator.
-* Finally and most importantly, I defined a custom notion of [fitness](https://en.wikipedia.org/wiki/Fitness_function): To compute the fitness score (higher is better) of a particular individual, convert the individual to a regex, then count the number of times the regex matches each image in the training set. Then aggregate (sum) the match counts by class and compute the negative [entropy](https://en.wikipedia.org/wiki/Entropy_(information_theory)) of this array.
+* I specified a termination condition: I would run the EA for a fixed number of generations, then save the *K* highest-fitness individuals seen across all generations. I would use these *K* regexes to featurize images.
+* Finally and most importantly, I defined a custom notion of [fitness](https://en.wikipedia.org/wiki/Fitness_function): To compute the fitness score (higher is better) of a given individual, convert the individual to a regex, then count the number of times the regex matches each image in the training set. Then aggregate (sum) the match counts by class and compute the negative [entropy](https://en.wikipedia.org/wiki/Entropy_(information_theory)) of this array.
 
-In essence, my fitness function likes regexes that make the classes more easily separable: A high-fitness regex is one that matches examples from one class significantly more than those from other classes. A low-fitness regex is one that matches examples from all classes to roughly the same degree.
+In essence, my fitness function favors regexes that make discriminating between the classes easier: A high-fitness regex is one that matches examples from one class significantly more than those from other classes. A low-fitness regex is one that matches examples from all classes to roughly the same degree.
 
-Below is a comparison of the entropies of two arrays, which represent match counts. E.g., the match counts `[100, 12, 11]` indicate that the first regex had 100 matches among Class 0 examples, 12 matches among Class 1 examples, and 11 matches among Class 2 examples.
+Below is a comparison of the negative entropy values for two arrays, which represent match counts. (Specifically, `[100, 12, 11]` indicates that the regex being evaluated had 100 matches among examples from Class 0, 12 matches among examples from Class 1, and 11 matches among examples from Class 2.)
 
 ```python
 >>> from scipy.stats import entropy
@@ -76,7 +77,7 @@ After implementing the EA as defined above, I immediately ran into an issue with
 ```
 >>> -entropy([100, 0, 0])
 -0.0
->>> -entropy([1, 0, 0])  # Clearly worse than the one above
+>>> -entropy([1, 0, 0])  # Clearly not as good as the one above
 -0.0
 ```
 
@@ -92,10 +93,10 @@ I resolved this by incorporating [additive smoothing](https://en.wikipedia.org/w
 
 This appeared to fix the issue.
 
-Eventually, by playing with the learning options, I was able to reach 63.5% classification accuracy using *K*=64 regexes.
+Eventually, by playing with the initialization and EA options, I was able to reach 63.5% classification accuracy using *K*=64 regexes.
 That was enough to convince me that the featurization was working, at least at some level, seeing as random guessing should've yielded ~10% classification accuracy.
 
-Unfortunately, relative to other models, 63.5% accuracy is very, very poor. The baseline SVM trained on raw (binarized) pixels easily achieved ~95% accuracy. Even an SVM trained on just the top half of each image performed substantially better (at 79.1% accuracy).
+Unfortunately, relative to other models, 63.5% accuracy is very, very poor. The baseline SVM trained on raw (binarized) pixels easily achieved ~95% accuracy. Even an SVM trained on just the top half of each image performed substantially better (at ~79% accuracy).
 
 So what was the EA learning? The 10 highest-fitness regexes (across all generations) from the 63.5% accuracy run are shown here:
 
@@ -121,15 +122,15 @@ Notice that three of the regexes don't match any of the first 10 images from the
 <!-- So the regex matches are actually quite rare. Indeed, the average example in the featurized training set contains ~15 non-zero entries (out of 64 total). -->
 <!-- print(np.mean(np.apply_along_axis(np.count_nonzero, 1, X_train_f))) -->
 
-## Conclusions
+## Final thoughts
 
 Although I had a lot of fun conducting this experiment, it would be overly generous to consider it successful.
 But I do have some thoughts on what could be improved.
 
 First, as you may have noticed, I've constrained my regexes to be of fixed length: each regex consists of exactly 12 elements of `regex_comps`, arranged in some order. This constraint makes very little sense, and is undoubtedly prohibiting the evolutionary algorithm from finding shorter (or longer) regexes of high fitness.
 
-Second, when looking at the outputs of the EA, I found that many of the final *K* regexes had high match counts for the same class, e.g., a lot of regexes were very good at matching the digit "4", but almost none were good at matching "9".
-It would be interesting to try to coerce the EA into outputting more diverse regexes, perhaps by penalizing individuals that are too similar to existing ones, or by using more complicated population models (like the so-called island model by Cohoon et al.).
+Second, when looking at the outputs of the EA, I found that many of the *K* chosen regexes had high match counts for the same class, e.g., a lot of regexes were very good at matching the digit "4", but almost none were good at matching "9".
+It would be interesting to try to coerce the EA into outputting more diverse regexes, perhaps by penalizing individuals that are too similar to existing ones or by using more complicated population models (like the so-called island model by Cohoon et al.).
 
 Finally, the featurization process itself could be improved: the features should take into account the spatial orientation of the matches.
 Rather than counting the number of matches throughout an entire image, we should be counting the number of matches per row or per region. The model would then be more similar to a typical convolutional neural network, where we have multiple filters (regexes) that are applied to a single region at a time. I would expect this sort of approach to perform substantially better than the one detailed above.
