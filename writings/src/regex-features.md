@@ -137,6 +137,8 @@ Rather than counting the number of matches throughout an entire image, we should
 
 The code for this experiment can be found on [GitHub](https://github.com/guoguo12/deap-regex-featurization).
 
+*Update (3/21/17):* I ran a new experiment where I counted the number of matches per row. See GitHub for results.
+
 <!--STANDARD FOOTER FOLLOWS-->
 </div>
 <hr>
