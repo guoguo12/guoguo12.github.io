@@ -143,3 +143,6 @@ The code for this experiment can be found on [GitHub](https://github.com/guoguo1
 <p>
 If you liked this, check out my <a href="/#writings">other works</a> or find me on <a href="https://github.com/guoguo12" target="_blank">GitHub</a>.
 </p>
+<p>
+Thanks to Alvin Wan for reading a draft of this.
+<p>
