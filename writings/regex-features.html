@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!---
+ "He felt that his whole life was some kind of dream
+   and he sometimes wondered whose it was
+     and whether they were enjoying it."
+      
+              --Douglas Adams, 'The Hitchhiker's Guide to the Galaxy'
+---->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Image Classification with Regex-based Features - Allen Guo</title>
+  <meta name="author" content="Allen Guo">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../css/styles.css">
+  <!-- <link rel="stylesheet" href="../css/monokai-sublime.css"> -->
+  <link rel="stylesheet" href="../css/plain.css">
+  <link rel="stylesheet" href="../css/lightbox.css">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <style>
+  .article-top {
+    background-color: #315C6C;
+  }
+  </style>
+</head>
+<body>
+<div class="article-top hidden-sm hidden-xs">
+<div class="header-text">
+<a href="/">allen guo</a>
+<span class="header-right">
+<a href="/#about">about me</a>
+<a href="https://github.com/guoguo12" target="_blank">github</a>
+</span>
+</div>
+</div>
+<div class="article-top-placeholder hidden-sm hidden-xs">
+<!-- Prevents top from being white as image loads. -->
+</div>
+
+<div class="article">
+<h2>Image Classification with Regex-based Features</h2>
+<span class="byline">Published 20 March 2017 &mdash; 11 minute read
+</span>
+
+<div class="article-body" markdown="1">
+<!-- BEGIN MARKDOWN -->
+<p>Can regular expressions be used to featurize images for classification?</p>
+
+<p>A few days ago, when the question first popped into my head, my guess was: <em>probably</em>. My reasoning went something like this:</p>
+
+<ol>
+<li>Neural networks are good at image classification because they learn to find patterns.</li>
+<li>Regular expressions are used for pattern matching.</li>
+<li>Therefore, regular expressions might be good at image classification.</li>
+</ol>
+
+<p>After conducting a cursory literature review (translation: I did a Google search) and coming up empty-handed, I decided to give it a shot. I chose to tackle a known "easy" problem: classifying images of handwritten digits. If the method worked for digit classification, I could then adapt it to more complex scenarios.</p>
+
+<h3>Problem description</h2>
+
+<p>I started by defining a simple featurization process:</p>
+
+<blockquote>
+  <p>Given <em>K</em> regexes, we'll take each image in our dataset, binarize it, flatten it into a string, and count the number of times each regex matches the image string. So for each image, we'll end up with a length-<em>K</em> array where the <em>i</em>-th element is the number of times the <em>i</em>-th regex matched the image.</p>
+</blockquote>
+
+<p>There are plenty of other ways we could featurizing images using regexes. I chose this one for its simplicity.</p>
+
+<p>I also defined an evaluation method:</p>
+
+<blockquote>
+  <p>To evaluate a particular set of <em>K</em> regexes, featurize the dataset, train an SVM on the featurized training data, then compute the SVM's classification accuracy on the featurized test data. As a baseline, compare the results against an SVM trained on the raw pixels of the image (i.e., the dataset featurized with the identity feature map).</p>
+</blockquote>
+
+<p>Having decided on a featurization strategy and evaluation method, I was left with the difficult part: finding good regexes. I'd briefly played with the <a href="https://deap.readthedocs.io">DEAP evolutionary algorithm framework</a> over winter break, and had been itching for another excuse to use it. This was the perfect opportunity.</p>
+
+<h3>Evolving regexes</h2>
+
+<!-- Since my evaluation metric was classification accuracy, that meant a "good" regex would be one that helps the SVM discriminate between classes. -->
+
+<p>The basic idea behind the evolutionary algorithm (EA) is as follows: Starting with an initial generation of regexes, measure how good each regex is and discard the ones that aren't so promising. Combine and mutate the remaining regexes to form a new generation of regexes. Repeat as needed.</p>
+
+<p>Because input images are limited to binary strings, it would be a waste of time to allow the EA to generate arbitrary regexes. I decided to limit the alphabet of regex components to five elements:</p>
+
+<pre><code>regex_comps = ['0', '1', '(', ')?', ')*']
+</code></pre>
+
+<p>My assumption is that most meaningful regexes acting on binary strings can be made using components drawn from <code>regex_comps</code>.</p>
+
+<p>Next, I set up the EA:</p>
+
+<ul>
+<li>I defined a single individual as a length-12 array of integers between 0 and 4 (inclusive). Each integer is an index into <code>regex_comps</code>. For example, the individual <code>[0, 1, 0, 1, 2, 3, 2, 3, 2, 4, 2, 4]</code> corresponds to the regex <code>0101()?()?()*()*</code>.</li>
+<li>I defined a population as a collection of 512 individuals. Each individual in the population was initialized by randomly selecting 12 integers between 0 and 4 (inclusive).</li>
+<li>I specified <a href="https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)">two-point crossover</a> as the mating operator.</li>
+<li>I specified <a href="https://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)">uniform random selection</a> as the mutation operator.</li>
+<li>I specified <a href="https://en.wikipedia.org/wiki/Tournament_selection">tournament selection</a> as the selection operator.</li>
+<li>Finally and most importantly, I defined a custom notion of <a href="https://en.wikipedia.org/wiki/Fitness_function">fitness</a>: To compute the fitness score (higher is better) of a particular individual, convert the individual to a regex, then count the number of times the regex matches each image in the training set. Then aggregate (sum) the match counts by class and compute the negative <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">entropy</a> of this array.</li>
+</ul>
+
+<p>In essence, my fitness function likes regexes that make the classes more easily separable: A high-fitness regex is one that matches examples from one class significantly more than those from other classes. A low-fitness regex is one that matches examples from all classes to roughly the same degree.</p>
+
+<p>Below is a comparison of the entropies of two arrays, which represent match counts. E.g., the match counts <code>[100, 12, 11]</code> indicate that the first regex had 100 matches among Class 0 examples, 12 matches among Class 1 examples, and 11 matches among Class 2 examples.</p>
+
+<pre><code>&gt;&gt;&gt; from scipy.stats import entropy
+&gt;&gt;&gt; -entropy([100, 12, 11])  # Matches Class 0 examples disproportionately often
+-0.61126771799804991
+&gt;&gt;&gt; -entropy([99, 93, 90])  # Matches examples from all classes fairly evenly
+-1.0978237788944929
+</code></pre>
+
+<p>Note that we only have three classes in this example, whereas we have 10 in digit classification (one per digit).</p>
+
+<p>(The inspiration for using entropy comes from <a href="https://en.wikipedia.org/wiki/Decision_tree_learning">decision tree learning</a>, where it is used to compute the information gain of a split.)</p>
+
+<h3>Dataset</h2>
+
+<p>For convenience reasons, I decided to use the handwritten digits dataset built into scikit-learn.
+The dataset consists of ~1800 8x8 grayscale images, which I binarized.</p>
+
+<p>Here are the first 10 images in the dataset (top row) alongside the binarized versions (bottom row):</p>
+
+<p><img src="img/digits-1.png" alt="10 examples from the digit dataset" /></p>
+
+<h3>Results</h2>
+
+<p>After implementing the EA as defined above, I immediately ran into an issue with my fitness function: match counts that had the same <em>proportions</em> of counts between classes had the same fitness value, even if one had a much larger sum than the other. For example:</p>
+
+<pre><code>&gt;&gt;&gt; -entropy([100, 0, 0])
+-0.0
+&gt;&gt;&gt; -entropy([1, 0, 0])  # Clearly worse than the one above
+-0.0
+</code></pre>
+
+<p>I resovled this by incorporating <a href="https://en.wikipedia.org/wiki/Additive_smoothing">additive smoothing</a>:</p>
+
+<pre><code>&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; -entropy(np.array([100, 0, 0]) + 1)  # The addition is broadcast
+-0.10922246200665318
+&gt;&gt;&gt; -entropy(np.array([1, 0, 0]) + 1)
+-1.0397207708399179
+</code></pre>
+
+<p>This appeared to fix the issue.</p>
+
+<p>Eventually, by playing with the learning options, I was able to reach 63.5% classification accuracy using <em>K</em>=64 regexes.
+That was enough to convince me that the featurization was working, at least at some level, seeing as random guessing should've yielded ~10% classification accuracy.</p>
+
+<p>Unfortunately, relative to other models, 63.5% accuracy is very, very poor. The baseline SVM trained on raw (binarized) pixels easily achieved ~95% accuracy. Even an SVM trained on just the top half of each image performed substantially better (at 79.1% accuracy).</p>
+
+<p>So what was the EA learning? The 10 highest-fitness regexes (across all generations) from the 63.5% accuracy run are shown here:</p>
+
+<pre><code>()?110011(00)?
+()?110011(()?)?
+000000100001
+000000000000
+(10)*00100001
+(11)*00100001
+(1)*000000000
+(1)?000000000
+()?0000000000
+1(101)?100()?1
+</code></pre>
+
+<p>We can visualize what these regexes are matching by plotting the first 10 images in the dataset and highlighting the match locations. In this image, each row corresponds to one of the top-10 regexes above:</p>
+
+<p><img src="img/digits-2.png" alt="10 examples from the digit dataset" /></p>
+
+<p>Notice that three of the regexes don't match any of the first 10 images from the dataset.</p>
+
+<p><!-- So the regex matches are actually quite rare. Indeed, the average example in the featurized training set contains ~15 non-zero entries (out of 64 total). -->
+<!-- print(np.mean(np.apply_along_axis(np.count_nonzero, 1, X_train_f))) --></p>
+
+<h3>Conclusions</h2>
+
+<p>Although I had a lot of fun conducting this experiment, it would be overly generous to consider it successful.
+But I do have some thoughts on what could be improved.</p>
+
+<p>First, as you may have noticed, I've constrained my regexes to be of fixed length: each regex consists of exactly 12 elements of <code>regex_comps</code>, arranged in some order. This constraint makes very little sense, and is undoubtedly prohibiting the evolutionary algorithm from finding shorter (or longer) regexes of high fitness.</p>
+
+<p>Second, when looking at the outputs of the EA, I found that many of the final <em>K</em> regexes had high match counts for the same class, e.g., a lot of regexes were very good at matching the digit "4", but almost none were good at matching "9".
+It would be interesting to try to coerce the EA into outputting more diverse regexes, perhaps by penalizing individuals that are too similar to existing ones, or by using more complicated population models (like the so-called island model by Cohoon et al.).</p>
+
+<p>Finally, the featurization process itself could be improved: the features should take into account the spatial orientation of the matches.
+Rather than counting the number of matches throughout an entire image, we should be counting the number of matches per row or per region. The model would then be more similar to a typical convolutional neural network, where we have multiple filters (regexes) that are applied to a single region at a time. I would expect this sort of approach to perform substantially better than the one detailed above.</p>
+
+<p>The code for this experiment can be found on <a href="https://github.com/guoguo12/deap-regex-featurization">GitHub</a>.</p>
+
+<p><!--STANDARD FOOTER FOLLOWS-->
+</div>
+<hr></p>
+
+<p>
+If you liked this, check out my <a href="/#writings">other works</a> or find me on <a href="https://github.com/guoguo12" target="_blank">GitHub</a>.
+</p>
+<!-- END MARKDOWN -->
+</div>
+<script src="../js/jquery-1.11.2.min.js"></script>
+<script src="../js/highlight.pack.js"></script>
+<script src="../js/lightbox.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49126820-1', 'auto');
+  ga('send', 'pageview');
+
+  $('a').click(function() {
+    ga('send', 'event', 'homepage', 'link', $(this).attr('href'));
+  });
+
+</script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
