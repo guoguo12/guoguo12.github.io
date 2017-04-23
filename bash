@@ -36,10 +36,12 @@ export HISTIGNORE="&:ls:[bf]g:exit"
 shopt -s cdspell
 shopt -s globstar
 
-# Screen
+# Screen/tmux
 alias scl='screen -ls'
 alias scr='screen -DRS'
 alias drr='screen -dRR'
+alias tml='tmux ls'
+alias tmr='tmux new-session -A -s'
 
 # Git
 alias gs="git status"
