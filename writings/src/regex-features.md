@@ -1,11 +1,11 @@
 Can regular expressions be used to featurize images for classification?
 
-A few days ago, when the question first popped into my head, my guess was: *probably*. My reasoning went something like this:
+A few days ago when the question first popped into my head, my guess was: *probably*. My reasoning went something like this:
 1. Neural networks are good at image classification because they learn to find patterns.
 2. Regular expressions are used for pattern matching.
 3. Therefore, regular expressions might be good at image classification.
 
-After conducting a cursory literature review (translation: I did a Google search) and coming up empty-handed, I decided to give it a shot. I chose to tackle a known "easy" problem: classifying images of handwritten digits. If the method worked for digit classification, I could then adapt it to more complex scenarios.
+After Googling for similar ideas and coming up empty-handed, I decided to give it a shot. I chose to tackle a known "easy" problem: classifying images of handwritten digits. If the method worked for digit classification, I could then adapt it to more complex scenarios.
 
 ## Problem description
 
