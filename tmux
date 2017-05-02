@@ -1,5 +1,7 @@
 # Global settings
 set-option -g history-limit 10000
+set -g mode-mouse on
+set -g mouse-resize-pane on
 
 # Turn on vim mode
 set-window-option -g mode-keys vi
