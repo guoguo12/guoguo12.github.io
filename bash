@@ -41,7 +41,7 @@ alias scl='screen -ls'
 alias scr='screen -DRS'
 alias drr='screen -dRR'
 alias tml='tmux ls'
-alias tmr='tmux new-session -A -s'
+alias tmu='tmux new-session -A -s'
 
 # Git
 alias gs="git status"
