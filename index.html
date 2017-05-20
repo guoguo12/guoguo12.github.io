@@ -371,12 +371,12 @@ var refreshSlide = function() {
 
 var updateFromUrl = function() {
   var path = location.href.split('#')[1];
-  if (!path) {
+  if (!path || path === 'home') {
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       currentSlide = 'about';
     } else {
       currentSlide = 'home';
-      $('#home').append('<a href="https://github.com/guoguo12/convnet-learning" target="_blank"><img src="img/convnet.gif"></a>');
+      $('#home').html('<a href="https://github.com/guoguo12/convnet-learning" target="_blank"><img src="img/convnet.gif"></a>');
     }
   } else if (slides.indexOf(path) != -1) {
     currentSlide = path;
