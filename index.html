@@ -22,7 +22,7 @@
 
 <div class="left">
 <h1>
-allen guo
+<a href="#home">allen guo</a>
 </h1>
 <a class="slidenav" href="#about">about me</a>
 <a class="slidenav" href="#projects">projects</a>
@@ -355,8 +355,6 @@ Articles, essays, and other things I've written:
 
 </script>
 <script>
-DEFAULT_SLIDE = 'about';
-
 var currentSlide = '';
 var slides = ['home', 'about', 'projects', 'resume', 'reads', 'writings'];
 
@@ -374,7 +372,12 @@ var refreshSlide = function() {
 var updateFromUrl = function() {
   var path = location.href.split('#')[1];
   if (!path) {
-    currentSlide = DEFAULT_SLIDE;
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      currentSlide = 'about';
+    } else {
+      currentSlide = 'home';
+      $('#home').append('<a href="https://github.com/guoguo12/convnet-learning" target="_blank"><img src="img/convnet.gif"></a>');
+    }
   } else if (slides.indexOf(path) != -1) {
     currentSlide = path;
   } else {
