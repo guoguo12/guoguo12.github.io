@@ -16,7 +16,7 @@ html {
 
   div.half {
     width: 100% !important;
-  }  
+  }
 }
 
 body {
@@ -49,7 +49,7 @@ span.hint--bottom {
   display: flex;
   justify-content: center;
   align-content: space-around;
-  flex-direction: column;  
+  flex-direction: column;
 }
 
 .left {
@@ -146,7 +146,7 @@ ul.other-projects li:not(:first-child) {
 
 .right > div {
   overflow: auto;
-  display: none;  
+  display: none;
 }
 
 .hidden {
@@ -198,6 +198,15 @@ ul.other-projects li:not(:first-child) {
   .hidden-sm {
     display: none !important;
   }
+}
+
+.right img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
 }
 
 #projects img {
