@@ -89,14 +89,28 @@ nmap <C-space> ?
 map <leader>vimrc :vsp ~/.vimrc<cr>
 autocmd bufwritepost .vimrc source $MYVIMRC
 
-" Custom bindings
-map <leader>m :set nonumber mouse-=a<cr>          " Turn off mouse (for copy/paste)
-map <leader>M :set number mouse=a<cr>             " Turn on mouse
-map <leader>c :set colorcolumn=80<cr>             " Turn on line length guide
-map <leader>C :set colorcolumn=0<cr>              " Turn off line length guide
-nnoremap K i<cr><Esc>                             " Undo J
-map <F2> :e %:h<cr>                               " Show directory containing file
-set pastetoggle=<F4>                              " Toggle paste mode
-map <F5> :GundoToggle<cr>                         " Toggle Gundo
-nmap <F8> :setlocal invspell spelllang=en_us<cr>  " Toggle spelling mode
-map <F12> :nohlsearch<cr>                         " Clear search highlighting
+" Toggle mouse
+map <leader>m :set nonumber mouse-=a<cr>
+map <leader>M :set number mouse=a<cr>
+
+" Toggle line length guide
+map <leader>c :set colorcolumn=80<cr>
+map <leader>C :set colorcolumn=0<cr>
+
+" Invert J
+nnoremap K i<cr><Esc>
+
+" Show directory containing file
+map <F2> :e %:h<cr>
+
+" Toggle paste mode
+set pastetoggle=<F4>
+
+" Toggle Gundo
+map <F5> :GundoToggle<cr>
+
+" Toggle spell-check
+nmap <F8> :setlocal invspell spelllang=en_us<cr>
+
+" Clear search highlighting
+map <F12> :nohlsearch<cr>
