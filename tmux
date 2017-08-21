@@ -2,6 +2,8 @@
 set-option -g history-limit 10000
 set -g mode-mouse on
 set -g mouse-resize-pane on
+set -g default-terminal 'screen-256color'
+set-window-option -g utf8 on
 
 # Turn on vim mode
 set-window-option -g mode-keys vi
