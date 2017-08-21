@@ -1,5 +1,21 @@
-" Basics
+" Vundle (https://github.com/VundleVim/Vundle.vim#quick-start)
+
 set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'bling/vim-airline'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'sjl/gundo.vim'
+Plugin 'scrooloose/syntastic'
+
+call vundle#end()
+filetype plugin indent on
+
+" Basics
 set nobackup
 syntax on
 "color zellner
