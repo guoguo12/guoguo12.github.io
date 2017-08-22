@@ -164,10 +164,25 @@ Articles, essays, and other things I've written:
 
 </script>
 <script>
+// Modified from https://jsperf.com/jquery-throttle-methods/6
+var throttle = (function () {
+  return function (fn, delay) {
+    delay || (delay = 100);
+    var last = (+new Date) - (2 * delay);
+    return function () {
+      var now = +new Date;
+      if (now - last > delay) {
+        fn.apply(this, arguments);
+        last = now;
+      }
+    };
+  };
+})();
+
 var currentSlide = '';
 var slides = ['home', 'about', 'resume', 'writings'];
 
-var refreshSlide = function() {
+var _refreshSlide = function() {
   for (var i = 0; i < slides.length; i++) {
     if (slides[i] == currentSlide) {
       $('#' + currentSlide).fadeIn(300);
@@ -177,6 +192,8 @@ var refreshSlide = function() {
   }
   console.log('Switching to ' + currentSlide + ' slide');
 }
+
+var refreshSlide = throttle(_refreshSlide, 100);
 
 var updateFromUrl = function() {
   var path = location.href.split('#')[1];
