@@ -1,4 +1,8 @@
-" Vundle (https://github.com/VundleVim/Vundle.vim#quick-start)
+" To install:
+" 1) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
+" 2) Make undo directory: mkdir -p ~/.vim/undo/
+
+" Vundle (:PluginInstall to update)
 
 set nocompatible
 filetype off
@@ -11,6 +15,7 @@ Plugin 'bling/vim-airline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
 filetype plugin indent on
@@ -45,9 +50,11 @@ set expandtab shiftwidth=4 softtabstop=4
 "set shiftwidth=2 tabstop=2
 
 " Save information between sessions
-set vi=%,'50 
-set vi+=\"100,:100 
-set vi+=n~/.viminfo 
+set vi=%,'50
+set vi+=\"100,:100
+set vi+=n~/.viminfo
+set undofile
+set undodir=~/.vim/undo//
 
 " Register filetypes
 au! BufNewFile,BufRead *.md set filetype=markdown
