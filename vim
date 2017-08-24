@@ -138,3 +138,6 @@ nmap <F8> :setlocal invspell spelllang=en_us<cr>
 
 " Clear search highlighting
 map <F12> :nohlsearch<cr>
+
+" Enter saves (unless the buffer can't be saved)
+nnoremap <expr> <cr> &buftype=="" ? ":w<cr>" : "<cr>" 
