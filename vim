@@ -37,6 +37,7 @@ set mouse=a                                  " Enable mouse for all modes
 set showmatch                                " Highlight matching brace when inserting
 set splitright                               " When splitting, new window goes on right
 set hidden                                   " Allow hidden buffers
+set gdefault                                 " Default to global replace
 
 " Indentation
 set autoindent
