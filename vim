@@ -16,11 +16,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
-
-let g:syntastic_mode_map = {
-     \ "mode": "passive",
-     \ "active_filetypes": ["c"],
-     \ "passive_filetypes": [] }
+Plugin 'zeis/vim-kolor'
 
 call vundle#end()
 filetype plugin indent on
@@ -28,11 +24,17 @@ filetype plugin indent on
 " Basics
 set nobackup
 syntax on
-color elflord
 
 " Set leader
 let mapleader = ","
 let maplocalleader = ",,"
+
+" Plugin options
+let g:syntastic_mode_map = {
+     \ "mode": "passive",
+     \ "active_filetypes": ["c"],
+     \ "passive_filetypes": [] }
+colorscheme kolor
 
 " Customizations
 set wildmenu wildmode=longest:list,full      " Match completion
