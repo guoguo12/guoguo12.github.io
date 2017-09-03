@@ -1,9 +1,9 @@
 " To install:
 " 1) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
 " 2) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
-" 3) Install a Powerline font (locally): https://github.com/powerline/fonts
+" 3) Run :PluginInstall
 
-" Vundle (:PluginInstall to update)
+" Vundle
 
 set nocompatible
 filetype off
@@ -26,20 +26,11 @@ filetype plugin indent on
 " Basics
 set nobackup
 syntax on
+colorscheme kolor
 
 " Set leader
 let mapleader = ","
 let maplocalleader = ",,"
-
-" Plugin options
-let g:airline_theme='wombat'
-let g:airline_powerline_fonts=1
-let g:Powerline_symbols='unicode'
-let g:syntastic_mode_map = {
-     \ "mode": "passive",
-     \ "active_filetypes": ["c"],
-     \ "passive_filetypes": [] }
-colorscheme kolor
 
 " Customizations
 set wildmenu wildmode=longest:list,full      " Match completion
@@ -79,6 +70,18 @@ au! BufNewFile,BufRead *.md set filetype=markdown
 " Filetype-specific settings
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType markdown setlocal expandtab shiftwidth=2 softtabstop=2
+
+" Status line settings
+" Install a Powerline font locally: https://github.com/powerline/fonts
+let g:airline_powerline_fonts=1
+let g:Powerline_symbols='unicode'
+let g:airline_theme='wombat'
+
+" Syntastic settings
+let g:syntastic_mode_map = {
+     \ "mode": "passive",
+     \ "active_filetypes": ["c"],
+     \ "passive_filetypes": [] }
 
 " http://vim.wikia.com/wiki/Search_for_visually_selected_text
 vnoremap // y/<C-R>"<CR>
