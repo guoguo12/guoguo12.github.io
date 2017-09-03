@@ -32,6 +32,8 @@ let maplocalleader = ",,"
 
 " Plugin options
 let g:airline_theme='wombat'
+let g:airline_powerline_fonts=1
+let g:Powerline_symbols='unicode'
 let g:syntastic_mode_map = {
      \ "mode": "passive",
      \ "active_filetypes": ["c"],
