@@ -1,6 +1,7 @@
 " To install:
-" 1) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
-" 2) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
+" 1) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
+" 2) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
+" 3) Install a Powerline font (locally): https://github.com/powerline/fonts
 
 " Vundle (:PluginInstall to update)
 
