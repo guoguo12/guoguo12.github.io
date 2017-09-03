@@ -17,6 +17,11 @@ Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 
+let g:syntastic_mode_map = {
+     \ "mode": "passive",
+     \ "active_filetypes": ["c"],
+     \ "passive_filetypes": [] }
+
 call vundle#end()
 filetype plugin indent on
 
@@ -131,6 +136,9 @@ nnoremap K i<cr><Esc>
 
 " Show directory containing file
 map <F2> :e %:h<cr>
+
+" Run Syntastic
+map <F3> :SyntasticCheck<cr>
 
 " Toggle paste mode
 set pastetoggle=<F4>
