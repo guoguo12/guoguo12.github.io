@@ -73,6 +73,7 @@ au! BufNewFile,BufRead *.md set filetype=markdown
 
 " Filetype-specific settings
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType markdown setlocal expandtab shiftwidth=2 softtabstop=2
 
 " http://vim.wikia.com/wiki/Search_for_visually_selected_text
 vnoremap // y/<C-R>"<CR>
