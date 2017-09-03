@@ -12,6 +12,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
@@ -30,6 +31,7 @@ let mapleader = ","
 let maplocalleader = ",,"
 
 " Plugin options
+let g:airline_theme='wombat'
 let g:syntastic_mode_map = {
      \ "mode": "passive",
      \ "active_filetypes": ["c"],
