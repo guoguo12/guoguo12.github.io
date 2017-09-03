@@ -1,6 +1,6 @@
 " To install:
 " 1) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
-" 2) Make undo directory: mkdir -p ~/.vim/undo/
+" 2) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
 
 " Vundle (:PluginInstall to update)
 
@@ -23,7 +23,7 @@ filetype plugin indent on
 " Basics
 set nobackup
 syntax on
-"color zellner
+color elflord
 
 " Set leader
 let mapleader = ","
@@ -55,6 +55,11 @@ set vi+=\"100,:100
 set vi+=n~/.viminfo
 set undofile
 set undodir=~/.vim/undo//
+
+" Save backups and swap files, but elsewhere
+set backup
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
 
 " Register filetypes
 au! BufNewFile,BufRead *.md set filetype=markdown
