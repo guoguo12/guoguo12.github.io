@@ -127,7 +127,7 @@ nmap <space> /
 nmap <C-space> ?
 
 " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
-:highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+:highlight link ExtraWhitespace IncSearch
 :match ExtraWhitespace /\s\+$/
 
 " http://superuser.com/questions/286985/reload-vimrc-in-vim-without-restart
