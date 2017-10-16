@@ -19,6 +19,7 @@ Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'zeis/vim-kolor'
+Plugin 'junegunn/goyo.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -69,6 +70,7 @@ au! BufNewFile,BufRead *.md set filetype=markdown
 
 " Filetype-specific settings
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType c setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType markdown setlocal expandtab shiftwidth=2 softtabstop=2
 
 " Status line settings
@@ -159,6 +161,9 @@ map <F5> :GundoToggle<cr>
 
 " Toggle spell-check
 nmap <F8> :setlocal invspell spelllang=en_us<cr>
+
+" Toggo Goyo
+map <F11> :Goyo<cr>
 
 " Clear search highlighting
 map <F12> :nohlsearch<cr>
