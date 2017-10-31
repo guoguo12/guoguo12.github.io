@@ -16,6 +16,7 @@ alias ll='ls -Al'
 alias ls='ls -GFh --color=tty'
 alias rm='rm -i'
 alias bell='echo -e "\a"'
+alias rlf='readlink -f'
 
 # Moving around
 alias ..="cd .."
