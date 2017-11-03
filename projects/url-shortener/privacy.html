@@ -17,7 +17,17 @@
   <h2>Introduction</h2>
   This is the privacy policy page for the URL Shortener add-on for Google Docs, which is used to shorten long URLs using the Google URL Shortener service.
   <h2>Policy</h2>
-  The URL Shortener add-on does not store any user information.
+  The URL Shortener accesses the following user data:
+   <ul>
+     <li>The URL or text selected at the time the user clicks "Shorten selected URL" in the URL Shortener menu.</li>
+     <li>The URL of the document, when the user clicks "Get document link" in the URL Shortener menu.</li>
+   </ul>
+  This user data is passed directly to the Google URL Shortener service, which (on success) replies with the requested short URL.
+  The URL Shortener add-on does not communicate with any other external servers or databases.
+  <p>
+  When the URL of a document is shortened (using the "Get document link" feature), the resulting short URL is stored in the
+  <a href="https://developers.google.com/apps-script/guides/properties" target="_blank">Properties</a> object
+  corresponding to the document. This object is not accessible by any other user or add-on.
   <p>
   You can find the privacy policy for the Google URL Shortener service at <a href="https://goo.gl/" target="_blank">their website</a> (click "Privacy Policy" in the footer).
   <h2>About</h2>
