@@ -183,4 +183,8 @@ map <F11> :Goyo<cr>
 map <F12> :nohlsearch<cr>
 
 " Enter saves (unless the buffer can't be saved)
-nnoremap <expr> <cr> &buftype=="" ? ":w<cr>" : "<cr>" 
+nnoremap <expr> <cr> &buftype=="" ? ":w<cr>" : "<cr>"
+
+" Easy access to vimrc (and easy reloading)
+map <leader>vimrc :vsp $MYVIMRC<cr>
+map <leader>source :source $MYVIMRC<cr>
