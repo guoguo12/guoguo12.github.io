@@ -1,7 +1,12 @@
-" To install:
-" 1) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
-" 2) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
-" 3) Run :PluginInstall
+" To install this config:
+"   0) Download: curl aguo.us/vim >| ~/.vimrc
+"   1) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
+"   2) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
+"   3) Run :PluginInstall
+"
+" To do locally (optional):
+"   0) Install a Powerline font: https://github.com/powerline/fonts
+"   1) Install a terminal that supports 24-bit colors
 
 " Vundle
 
@@ -18,8 +23,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
-Plugin 'zeis/vim-kolor'
 Plugin 'junegunn/goyo.vim'
+Plugin 'jacoborus/tender.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -27,7 +32,13 @@ filetype plugin indent on
 " Basics
 set nobackup
 syntax on
-colorscheme kolor
+
+" Theme
+if (has("termguicolors"))
+    set termguicolors
+endif
+colorscheme tender
+let g:airline_theme = "tender"
 
 " Set leader
 let mapleader = ","
@@ -72,18 +83,22 @@ au! BufNewFile,BufRead *.md set filetype=markdown
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType c setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType markdown setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType html setlocal expandtab shiftwidth=2 softtabstop=2
 
 " Status line settings
-" Install a Powerline font locally: https://github.com/powerline/fonts
 let g:airline_powerline_fonts=1
 let g:Powerline_symbols='unicode'
-let g:airline_theme='wombat'
 
 " Syntastic settings
 let g:syntastic_mode_map = {
      \ "mode": "passive",
      \ "active_filetypes": ["c"],
      \ "passive_filetypes": [] }
+
+" Gundo settings
+if has("python3")
+    let g:gundo_prefer_python3 = 1
+endif
 
 " http://vim.wikia.com/wiki/Search_for_visually_selected_text
 vnoremap // y/<C-R>"<CR>
@@ -132,10 +147,6 @@ nmap <C-space> ?
 :highlight link ExtraWhitespace IncSearch
 :match ExtraWhitespace /\s\+$/
 
-" http://superuser.com/questions/286985/reload-vimrc-in-vim-without-restart
-map <leader>vimrc :vsp ~/.vimrc<cr>
-autocmd bufwritepost .vimrc source $MYVIMRC
-
 " Toggle mouse
 map <leader>m :set nonumber mouse-=a<cr>
 map <leader>M :set number mouse=a<cr>
@@ -146,6 +157,9 @@ map <leader>C :set colorcolumn=0<cr>
 
 " Invert J
 nnoremap K i<cr><Esc>
+
+" Show recently edited files
+map <F1> :browse old<cr>
 
 " Show directory containing file
 map <F2> :e %:h<cr>
