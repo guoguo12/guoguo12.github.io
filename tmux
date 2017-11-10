@@ -31,11 +31,19 @@ bind - split-window -v
 unbind '"'
 unbind %
 
+# Fast switch to last window
+bind-key C-a last-window
+
 # Intuitive pane-switching
 bind -n M-Left select-pane -L
 bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
+
+# Status bar styling
+set -g status-bg "#101010"
+set -g status-fg "#009090"
+setw -g window-status-current-fg white
 
 # Other settings for older versions of tmux
 # set -g mode-mouse on
