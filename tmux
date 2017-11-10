@@ -1,16 +1,20 @@
+# Config for tmux 2.6
+
 # Global settings
-set-option -g history-limit 10000
-set -g mode-mouse on
-set -g mouse-resize-pane on
-set -g default-terminal 'screen-256color'
-set-window-option -g utf8 on
+set -g mouse on
+set-option -g history-limit 100000
+set -g default-terminal 'xterm-256color'
 
 # Turn on vim mode
 set-window-option -g mode-keys vi
 
 # Vim-like copy
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-selection
+bind -T copy-mode-vi 'v' send -X begin-selection
+bind -T copy-mode-vi 'y' send -X copy-selection
+
+# Vim-like copy (older versions of tmux)
+# bind-key -t vi-copy 'v' begin-selection
+# bind-key -t vi-copy 'y' copy-selection
 
 # Screen-like prefix
 unbind C-b
@@ -32,3 +36,8 @@ bind -n M-Left select-pane -L
 bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
+
+# Other settings for older versions of tmux
+# set -g mode-mouse on
+# set -g mouse-resize-pane on
+# set-window-option -g utf8 on
