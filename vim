@@ -3,10 +3,15 @@
 "   1) Make backup/swap/undo directories: mkdir -p ~/.vim/{backup,swap,undo}
 "   2) Install Vundle: https://github.com/VundleVim/Vundle.vim#quick-start
 "   3) Run :PluginInstall
+"   4) Configure meta-options (see below)
 "
 " To do locally (optional):
 "   0) Install a Powerline font: https://github.com/powerline/fonts
 "   1) Install a terminal that supports 24-bit colors
+
+" Meta-options
+
+let truecolor = 0  " Enable if true color is supported
 
 " Vundle
 
@@ -34,7 +39,7 @@ set nobackup
 syntax on
 
 " Theme
-if (has("termguicolors"))
+if has("termguicolors") && truecolor
     set termguicolors
 endif
 colorscheme tender
