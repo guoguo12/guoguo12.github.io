@@ -85,6 +85,7 @@ set directory=~/.vim/swap//
 au! BufNewFile,BufRead *.md set filetype=markdown
 
 " Filetype-specific settings
+autocmd FileType haskell setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType c setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType markdown setlocal expandtab shiftwidth=2 softtabstop=2
@@ -144,9 +145,12 @@ nnoremap - $
 onoremap _ ^
 onoremap - $
 
+" Untab easily
+inoremap <S-tab> <C-d>
+
 " Search easily
 nmap <space> /
-nmap <C-space> ?
+nmap <C-@> ?
 
 " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
 :highlight link ExtraWhitespace IncSearch
@@ -186,6 +190,7 @@ map <F11> :Goyo<cr>
 
 " Clear search highlighting
 map <F12> :nohlsearch<cr>
+map \ :nohlsearch<cr>
 
 " Enter saves (unless the buffer can't be saved)
 nnoremap <expr> <cr> &buftype=="" ? ":w<cr>" : "<cr>"
