@@ -3,7 +3,7 @@
 # Global settings
 set -g mouse on
 set-option -g history-limit 100000
-set -g default-terminal 'xterm-256color'
+set -g default-terminal 'screen-256color'
 
 # Turn on vim mode
 set-window-option -g mode-keys vi
@@ -30,9 +30,6 @@ bind | split-window -h
 bind - split-window -v
 unbind '"'
 unbind %
-
-# Fast switch to last window
-bind-key C-a last-window
 
 # Intuitive pane-switching
 bind -n M-Left select-pane -L
