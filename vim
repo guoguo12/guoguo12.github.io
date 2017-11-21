@@ -55,6 +55,7 @@ set showcmd                                  " Command hint in corner
 set hlsearch incsearch ignorecase smartcase  " Improved search
 set backspace=indent,eol,start               " Fix backspace in certain terminals
 set whichwrap+=<,>,h,l,[,]                   " Allow movement to wrap
+set listchars=tab:>-                         " Show tabs in list mode
 set nostartofline ruler number               " Improved handling of lines
 set laststatus=2                             " Always show a status line
 set confirm                                  " Ask about saving files
@@ -163,6 +164,9 @@ map <leader>M :set number mouse=a<cr>
 " Toggle line length guide
 map <leader>c :set colorcolumn=80<cr>
 map <leader>C :set colorcolumn=0<cr>
+
+" Toggle list mode
+map <leader>t :set invlist<cr>
 
 " Invert J
 nnoremap K i<cr><Esc>
