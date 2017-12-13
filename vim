@@ -64,6 +64,7 @@ set showmatch                                " Highlight matching brace when ins
 set splitright                               " When splitting, new window goes on right
 set hidden                                   " Allow hidden buffers
 set gdefault                                 " Default to global replace
+set colorcolumn=80                           " Show line length guide
 
 " Indentation
 set autoindent
@@ -109,6 +110,9 @@ endif
 
 " http://vim.wikia.com/wiki/Search_for_visually_selected_text
 vnoremap // y/<C-R>"<CR>
+
+" http://vim.wikia.com/wiki/Swapping_characters,_words_and_lines
+vnoremap <C-X> <Esc>`.``gvP``P
 
 " http://vim.wikia.com/wiki/Short_mappings_for_common_tasks
 vmap > >gv     " Right indent in visual
@@ -157,6 +161,12 @@ nmap <C-@> ?
 :highlight link ExtraWhitespace IncSearch
 :match ExtraWhitespace /\s\+$/
 
+" Invert J
+nnoremap K i<cr><Esc>
+
+" Enter saves (unless the buffer can't be saved)
+nnoremap <expr> <cr> &buftype=="" ? ":w<cr>" : "<cr>"
+
 " Toggle mouse
 map <leader>m :set nonumber mouse-=a<cr>
 map <leader>M :set number mouse=a<cr>
@@ -165,17 +175,20 @@ map <leader>M :set number mouse=a<cr>
 map <leader>c :set colorcolumn=80<cr>
 map <leader>C :set colorcolumn=0<cr>
 
+" Toggle automatic wrapping
+map <leader>w :set tw=79<cr>
+map <leader>W :set tw=0<cr>
+
 " Toggle list mode
 map <leader>t :set invlist<cr>
 
-" Invert J
-nnoremap K i<cr><Esc>
-
 " Show recently edited files
 map <F1> :browse old<cr>
+map <leader><F1> :vsp<cr>:browse old<cr>
 
 " Show directory containing file
 map <F2> :e %:h<cr>
+map <leader><F2> :vsp<cr>:e %:h<cr>
 
 " Run Syntastic
 map <F3> :SyntasticCheck<cr>
@@ -196,9 +209,9 @@ map <F11> :Goyo<cr>
 map <F12> :nohlsearch<cr>
 map \ :nohlsearch<cr>
 
-" Enter saves (unless the buffer can't be saved)
-nnoremap <expr> <cr> &buftype=="" ? ":w<cr>" : "<cr>"
-
 " Easy access to vimrc (and easy reloading)
 map <leader>vimrc :vsp $MYVIMRC<cr>
 map <leader>source :source $MYVIMRC<cr>
+
+" Python macros
+map <leader>pdb <esc>oimport pdb; pdb.set_trace()<esc>
