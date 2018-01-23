@@ -28,6 +28,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
+Plugin 'indentpython.vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'jacoborus/tender.vim'
 
