@@ -90,6 +90,7 @@ au! BufNewFile,BufRead *.md set filetype=markdown
 " Filetype-specific settings
 autocmd FileType haskell setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType javascript setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType c setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType markdown setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd FileType html setlocal expandtab shiftwidth=2 softtabstop=2
