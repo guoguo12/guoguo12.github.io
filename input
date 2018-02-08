@@ -1,0 +1,10 @@
+"\e[1;5C": forward-word           # ctrl + right
+"\e[1;5D": backward-word          # ctrl + left
+"\e[1;3C": forward-word           # alt + right
+"\e[1;3D": backward-word          # alt + left
+"\e[A": history-search-backward   # zsh-like up arrow
+"\e[B": history-search-forward    # zsh-like down arrow
+
+$if Bash
+  Space: magic-space
+$endif

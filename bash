@@ -102,14 +102,6 @@ fi
 # curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
 # git clone https://github.com/rupa/z.git .zfiles
 
-# To put in ~/.inputrc:
-# "\e[1;5C": forward-word           # ctrl + right
-# "\e[1;5D": backward-word          # ctrl + left
-# "\e[1;3C": forward-word           # alt + right
-# "\e[1;3D": backward-word          # alt + left
-# "\e[A": history-search-backward   # zsh-like up arrow
-# "\e[B": history-search-forward    # zsh-like down arrow
-
 if [ -f ~/.git-prompt.sh ]; then source ~/.git-prompt.sh; else alias __git_ps1='echo "$1" > /dev/null'; fi
 if [ -f ~/.git-completion.bash ]; then source ~/.git-completion.bash; fi
 if [ -f ~/.zfiles/z.sh ]; then . ~/.zfiles/z.sh; fi
