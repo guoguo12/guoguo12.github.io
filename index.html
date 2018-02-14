@@ -1,59 +1,72 @@
-<html>
-<head>
-<meta charset="utf-8">
-<title>Allen Guo</title>
-<meta name="author" content="Allen Guo">
-<meta name="description" content="A description for this result is not available because the site's owner was too lazy to write one.">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="google-site-verification" content="6qBFrmZL16m9jrv9J59g-1qfbtIocqgPmLDuvJSVeO8">
-<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-<style>
-body {
-    position: absolute;
-    top: 10%;
-    margin: 5%;
-    color: #333;
-    font-family: 'Lora', serif;
-    font-size: 150%;
-    line-height: 150%;
-}
-
-@media screen and (min-width: 992px) {
-    body {
-        left: 10%;
-        right: 45%;
+<!doctype html>
+<html amp lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <title>Allen Guo</title>
+    <link rel="canonical" href="http://example.ampproject.org/article-metadata.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <meta name="author" content="Allen Guo">
+    <meta name="description" content="A description for this result is not available because the site's owner was too lazy to write one.">
+    <meta name="google-site-verification" content="6qBFrmZL16m9jrv9J59g-1qfbtIocqgPmLDuvJSVeO8">
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <style amp-custom>
+    #main {
+        position: absolute;
+        margin: 5%;
+        margin-top: 8%;
+        color: #333;
+        font-family: 'Lora', serif;
+        font-size: 150%;
+        line-height: 150%;
     }
-}
 
-a {
-    color: inherit;
-}
+    @media screen and (min-width: 992px) {
+        #main {
+            left: 10%;
+            right: 45%;
+        }
+    }
 
-::selection {
-    background: yellow;
-}
+    a {
+        color: inherit;
+    }
 
-::-moz-selection {
-    background: yellow;
-}
-</style>
-</head>
-<body>
-<h3>Hi, I'm Allen Guo.</h3>
-I'm a 5th year MS student in EECS at UC&nbsp;Berkeley, advised by <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/joshhug.html" target="_blank" rel="noopener noreferrer">Josh Hug</a>.
-<p>
-My interests include data science, functional programming, and CS education.
-<p>
-Find me on <a href="http://github.com/guoguo12" target="_blank" rel="noopener noreferrer">GitHub</a>.
+    ::selection {
+        background: yellow;
+    }
 
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ::-moz-selection {
+        background: yellow;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h3>Hi, I'm Allen Guo.</h3>
+      I'm a 5th year MS student in EECS at UC&nbsp;Berkeley, advised by <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/joshhug.html" target="_blank" rel="noopener noreferrer">Josh Hug</a>.
+      <p>
+      My interests include data science, functional programming, and CS education.
+      <p>
+      Find me on <a href="http://github.com/guoguo12" target="_blank" rel="noopener noreferrer">GitHub</a>.
+    </div>
 
-ga('create', 'UA-49126820-1', 'auto');
-ga('send', 'pageview');
-</script>
-</body>
+    <amp-analytics type="googleanalytics">
+    <script type="application/json">
+    {
+      "vars": {
+	"account": "UA-49126820-1"
+      },
+      "triggers": {
+	"trackPageview": {
+	  "on": "visible",
+	  "request": "pageview"
+	}
+      }
+    }
+    </script>
+    </amp-analytics>
+  </body>
 </html>
