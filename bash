@@ -46,11 +46,14 @@ alias tmu='history -a; tmux new-session -A -s'
 
 # Git
 alias gs="git status"
+alias gsuno="git status --untracked-files=no"
 alias gcl="git clone"
+alias gcls="git clone --depth 1"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gdl="git diff HEAD~ HEAD"
 alias gdll="git diff HEAD~2 HEAD~"
+alias gdlll="git diff HEAD~3 HEAD~2"
 alias gdw="git diff --color-words='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'"
 alias gf="git fetch"
 alias gfa="git fetch --all"
