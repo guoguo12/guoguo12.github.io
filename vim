@@ -217,3 +217,7 @@ map <leader>source :source $MYVIMRC<cr>
 
 " Python macros
 map <leader>pdb <esc>oimport pdb; pdb.set_trace()<esc>
+
+" Easy replacement of search term
+map <leader>r :%s//
+map <localleader>r :s//
