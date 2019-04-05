@@ -27,9 +27,12 @@ bind ^D detach
 
 # Intuitive splits
 bind | split-window -h
-bind - split-window -v
+bind - split-window -v -p 85
 unbind '"'
 unbind %
+
+# For sending keystrokes to multiple panes
+bind -n M-s setw synchronize-panes
 
 # Intuitive pane-switching
 bind -n M-Left select-pane -L
@@ -37,10 +40,19 @@ bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
 
+# Vim-like pane-switching
+bind -n M-h select-pane -L
+bind -n M-l select-pane -R
+bind -n M-k select-pane -U
+bind -n M-j select-pane -D
+
 # Status bar styling
 set -g status-bg "#101010"
-set -g status-fg "#009090"
+set -g status-fg "#BA68C8"
 setw -g window-status-current-fg white
+
+# Clock styling
+setw -g clock-mode-colour colour5
 
 # Other settings for older versions of tmux
 # set -g mode-mouse on
