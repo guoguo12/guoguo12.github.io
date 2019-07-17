@@ -1,4 +1,5 @@
-# Config for tmux 2.6
+# Config for tmux 2.6+
+# Reload with ":source-file ~/.tmux.conf"
 
 # Global settings
 set -g mouse on
@@ -12,9 +13,8 @@ set-window-option -g mode-keys vi
 bind -T copy-mode-vi 'v' send -X begin-selection
 bind -T copy-mode-vi 'y' send -X copy-selection
 
-# Vim-like copy (older versions of tmux)
-# bind-key -t vi-copy 'v' begin-selection
-# bind-key -t vi-copy 'y' copy-selection
+# Copy to system clipboard
+bind -T copy-mode-vi C-y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 
 # Screen-like prefix
 unbind C-b
@@ -41,18 +41,25 @@ bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
 
 # Vim-like pane-switching
-bind -n M-h select-pane -L
-bind -n M-l select-pane -R
-bind -n M-k select-pane -U
-bind -n M-j select-pane -D
+# bind -n M-h select-pane -L
+# bind -n M-l select-pane -R
+# bind -n M-k select-pane -U
+# bind -n M-j select-pane -D
 
 # Status bar styling
-set -g status-bg "#101010"
-set -g status-fg "#BA68C8"
-setw -g window-status-current-fg white
+set -g status-style bg="#101010",fg="#BA68C8"
+setw -g window-status-current-style fg=white
+
+# Status bar contents
+set -g status-interval 1
+set -g status-right '%a %b %_d %Y %H:%M:%S'
 
 # Clock styling
 setw -g clock-mode-colour colour5
+
+# Swap-window shortcuts
+bind-key -n C-S-Left swap-window -t -1
+bind-key -n C-S-Right swap-window -t +1
 
 # Other settings for older versions of tmux
 # set -g mode-mouse on
