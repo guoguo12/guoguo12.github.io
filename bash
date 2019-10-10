@@ -17,6 +17,7 @@ alias ls='ls -GFh --color=tty'
 alias rm='rm -i'
 alias bell='echo -e "\a"'
 alias rlf='readlink -f'
+alias dedup='awk '"'"'!x[$0]++'"'"
 
 # Moving around
 alias ..="cd .."
